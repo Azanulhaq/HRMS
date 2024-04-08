@@ -1,0 +1,208 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Project Financials";
+}
+
+<script src="@Url.Content("~/Content/ForPrint/jQuery.print.js")"></script>
+
+
+<div class="col-md-12" >
+    <div class="row">
+        <div class="col-md-12">
+            <a href="/Projects/AllProjectList/" class="btn btn-sm btn-danger">Go Back</a>
+            <hr />
+        </div>
+    </div>
+    <div class="PrintWrapper">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <h3>  PROJECT ID: @ViewBag.ProjectId</h3>
+                <hr />
+                <h3><strong>Project Title : </strong>  @ViewBag.ProjectTitle </h3>
+                <h4> <strong>Project Status: </strong>@ViewBag.ProjectStatus</h4>
+                <h5><strong>Created by: </strong>@ViewBag.CreatedBy   <strong>On  </strong> @ViewBag.CreatedOn</h5>
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-4 PrntFinancials">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Financials</div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Est. Cost: </strong>@ViewBag.ProjectEstCost USD</li>
+                        <li class="list-group-item"><strong>Actual Cost: </strong> @ViewBag.ProjectAC USD</li>
+                        <li class="list-group-item">
+                            <strong>Project Status : </strong>
+                            @if (ViewBag.FinancialSts.Contains("Loss"))
+                        {
+                                <span class="label label-danger"> @ViewBag.FinancialSts USD</span>
+                        }
+                        else
+                        {
+                                <span class="label label-success">  @ViewBag.FinancialSts USD</span>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 PrntFinancials">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Important Dates</div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Start Date: </strong>@ViewBag.StartDate</li>
+                        <li class="list-group-item"><strong>Est. End Date: </strong>@ViewBag.EstEndDate </li>
+                        <li class="list-group-item"><strong>Act. End Date : </strong>@ViewBag.EndDate</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <h3>Project Team:</h3>
+                    <hr />
+                    @{
+                    if (ViewBag.TeamStats == null || Enumerable.Count(ViewBag.TeamStats) == 0)
+                    {
+                            <div class="alert alert-danger">No Team Found</div>
+                    }
+                    else
+                    {
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Designation</th>
+                                        <th>Department</th>
+                                        <th>Hours Alloted</th>
+                                        <th>Hours Worked</th>
+                                        <th>Rate/Hour</th>
+                                        <th>Est. Cost </th>
+                                        <th>Act. Cost </th>
+                                        <th>Result </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.TeamStats)
+                            {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td>@item.Designation</td>
+                                            <td>@item.Department</td>
+                                            <td>@item.AllowedHours</td>
+                                            <td>@item.HoursWorked</td>
+                                            <td>@item.HourRate</td>
+                                            <td>@item.AllowedCost</td>
+                                            <td>@item.ActualCost</td>
+                                            <td>
+                                                @if(item.Results.Contains("Loss"))
+                                        {
+                                                    <span class="label label-danger"> @item.Results USD</span>
+                                        }
+                                        else
+                                        {
+                                                    <span class="label label-success">  @item.Results USD</span>
+                                        }
+
+                                            </td>
+                                        </tr>
+
+                            }
+                                </tbody>
+                            </table>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Project Notes:</h3>
+                <hr />
+                @Html.Raw(ViewBag.Notes)
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <h3>Project TimeLine:</h3>
+                    <hr />
+                    @{
+                        if (ViewBag.TimeSheetAll == null || Enumerable.Count(ViewBag.TimeSheetAll) == 0)
+                        {
+                            <div class="alert alert-danger">No User Timesheet Comment Found</div>
+                        }
+                        else
+                        {
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Hours</th>
+                                        <th>Comments</th>
+                                        <th>Employee</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.TimeSheetAll)
+                                    {
+                                        <tr>
+                                            <td>@item.Date.ToShortDateString()</td>
+                                            <td>@item.Hours</td>
+                                            <td>@item.Comments</td>
+                                            <td>@item.Employee</td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="#" id="PrintData" class="btn btn btn-info">Print This Page</a>
+            <hr />
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+
+    $("#PrintData").click(function () {
+
+        $('.PrntFinancials').addClass('col-xs-6'); // ADD CLASS FOR PRINTING 
+
+        $('.table-responsive').removeClass('table-responsive'); // REMOVE CLASS FOR PRINTING
+
+
+        $(".PrintWrapper").print({
+            globalStyles: true,
+            noPrintSelector: ".no-print"
+        });
+        return (false);
+
+});
+});
+</script>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
+
+

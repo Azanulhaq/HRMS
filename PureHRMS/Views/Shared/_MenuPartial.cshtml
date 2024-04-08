@@ -1,0 +1,89 @@
+﻿
+
+<ul class="nav navbar-nav ">
+    <li><a href="/Home/EmployeeDashboard/">Dashboard </a></li>
+    @if (Session["UserIdentfier"] != null)
+    {
+        using (HRMSConn dc = new HRMSConn())
+        {
+
+
+            int userIdentifier = Convert.ToInt32(Session["UserIdentfier"]);
+
+
+
+            var menuItemsAllowedSingles = dc.tblPermissionMasters.Where(x => x.refUserId == userIdentifier && x.refMenuParentID == 0 && x.Allowed == true).ToList();
+
+
+
+
+            for (int i = 0; i < menuItemsAllowedSingles.Count; i++)
+            {
+                int menuId = Convert.ToInt32(menuItemsAllowedSingles[i].refMenuId);
+
+                var chkChildsofparent = dc.tblMenuMasters.Where(c => c.ParentId == menuId).ToList();
+                if (chkChildsofparent.Count > 0)
+                {
+                    ; // DOESN'T INCLUDE THIS NOW - BECAUSE IT WILL BE INCLUDED BELOW WITH ITS CHILDS
+                }
+                else
+                {
+                   
+                        var getMenuLinkName = dc.tblMenuMasters.Where(z => z.MenuId == menuId).SingleOrDefault();
+                        var getactioncontrlr1 = dc.tblMenuRelatedActions.Where(s => s.refMenuId == menuId).ToList();
+
+                        <li>
+                            <a href="/@getactioncontrlr1[0].ControllerName/@getactioncontrlr1[0].ActionName/">
+                                @getMenuLinkName.MenuName
+                            </a>
+                        </li>
+
+                   
+
+                }
+
+
+            }
+            var menuwithchilds = dc.tblPermissionMasters.Where(x => x.refUserId == userIdentifier && x.refMenuParentID != 0 && x.Allowed == true).Select(x => new { x.refMenuParentID }).Distinct().ToList();
+
+            for (int j = 0; j < menuwithchilds.Count; j++)
+            {
+                int parentid = Convert.ToInt32(menuwithchilds[j].refMenuParentID);
+                var parentname = dc.tblMenuMasters.Where(z => z.MenuId == parentid).ToList();
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@parentname[0].MenuName <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+
+                        @{
+                           
+                                var parentChilds = dc.tblPermissionMasters.Where(z => z.refMenuParentID == parentid && z.Allowed == true && z.refUserId == userIdentifier).ToList();
+                                for (int y = 0; y < parentChilds.Count; y++)
+                                {
+                                    int getmenuidint = Convert.ToInt32(parentChilds[y].refMenuId);
+                                    var getnameofmenu = dc.tblMenuMasters.Where(c => c.MenuId == getmenuidint).ToList();
+                                    var getactioncontrlr2 = dc.tblMenuRelatedActions.Where(s => s.refMenuId == getmenuidint).ToList();
+                                    <li><a href="/@getactioncontrlr2[0].ControllerName/@getactioncontrlr2[0].ActionName/">@getnameofmenu[0].MenuName</a></li>
+
+                                }
+                            
+
+                        }
+                   
+                    </ul>
+                </li>
+               
+                                    }
+
+                                }
+                            }
+
+
+
+
+   
+</ul>
+
+
+
+
+

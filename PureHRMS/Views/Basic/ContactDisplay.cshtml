@@ -1,0 +1,29 @@
+﻿@model PureHRMS.tblCommonContact
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Common Contacts";
+}
+
+<div class="col-md-12 ">
+
+    <span class="text-danger">Below are some common contacts you may need.</span>
+    <hr />
+    @Html.Raw(Model.ContactText)
+
+
+</div>
+
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
+
+

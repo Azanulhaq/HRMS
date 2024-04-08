@@ -1,0 +1,558 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0979F764-1C63-419B-B576-13EE75A589DB}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PureHRMS</RootNamespace>
+    <AssemblyName>PureHRMS</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AntiXssLibrary, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\AntiXssLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.3.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Enums.NET, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7ea1c1650d506225, processorArchitecture=MSIL">
+      <HintPath>..\packages\Enums.NET.4.0.1\lib\net45\Enums.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="ExtendedNumerics.BigDecimal, Version=2023.1000.0.230, Culture=neutral, PublicKeyToken=65f1315a45ad8949, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExtendedNumerics.BigDecimal.2023.1000.0.230\lib\net48\ExtendedNumerics.BigDecimal.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlSanitizationLibrary, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.3.11, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.3.3\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.Signed.5.0.0\lib\net48\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.0\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.Core, Version=2.7.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.7.0\lib\net472\NPOI.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.7.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.7.0\lib\net472\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.7.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.7.0\lib\net472\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.7.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.7.0\lib\net472\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.Fonts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.Fonts.1.0.1\lib\netstandard2.0\SixLabors.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.ImageSharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.ImageSharp.2.1.7\lib\net472\SixLabors.ImageSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Pkcs, Version=6.0.0.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Pkcs.6.0.3\lib\net461\System.Security.Cryptography.Pkcs.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Xml, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Xml.6.0.1\lib\net461\System.Security.Cryptography.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\BasicLayout\assets\css\bootstrap.min.css" />
+    <Content Include="Content\BasicLayout\assets\css\custom-css\green.css" />
+    <Content Include="Content\BasicLayout\assets\css\font-awesome.min.css" />
+    <Content Include="Content\BasicLayout\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\BasicLayout\assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\BasicLayout\assets\img\1.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\2.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\3.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\apple-touch-icon-114x144.png" />
+    <Content Include="Content\BasicLayout\assets\img\apple-touch-icon-144x144.png" />
+    <Content Include="Content\BasicLayout\assets\img\apple-touch-icon-72x72.png" />
+    <Content Include="Content\BasicLayout\assets\img\apple-touch-icon.png" />
+    <Content Include="Content\BasicLayout\assets\img\carousel\1.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\carousel\2.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\carousel\3.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\clients.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\demoUpload.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\favicon.ico" />
+    <Content Include="Content\BasicLayout\assets\img\header.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\logo.png" />
+    <Content Include="Content\BasicLayout\assets\img\portfolio\1.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\portfolio\2.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\portfolio\3.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\portfolio\4.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\portfolio\5.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\portfolio\6.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\portfolio\7.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\portfolio\8.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\portfolio\9.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\users\1.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\users\2.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\users\3.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\users\4.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\users\5.jpg" />
+    <Content Include="Content\BasicLayout\assets\img\users\6.jpg" />
+    <Content Include="Content\BasicLayout\assets\js\bootstrap.min.js" />
+    <Content Include="Content\BasicLayout\assets\js\custom.js" />
+    <Content Include="Content\BasicLayout\assets\js\jquery-1.11.3.min.js" />
+    <Content Include="Content\BasicLayout\assets\js\summernote\summernote.css" />
+    <Content Include="Content\BasicLayout\assets\js\summernote\summernote.js" />
+    <Content Include="Content\datepick\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\datepick\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\datepick\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\datepick\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\datepick\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\datepick\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\datepick\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\datepick\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\datepick\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\datepick\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\datepick\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\datepick\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\datepick\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\datepick\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\datepick\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\datepick\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\datepick\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\datepick\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\datepick\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\datepick\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\datepick\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\datepick\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\datepick\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\datepick\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\datepick\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\datepick\jquery-1.10.2.js" />
+    <Content Include="Content\datepick\jquery-ui.css" />
+    <Content Include="Content\datepick\jquery-ui.js" />
+    <Content Include="Content\ForPrint\jQuery.print.js" />
+    <Content Include="Content\MaskJs\jquery.mask.min.js" />
+    <Content Include="Content\TeamTree\jquery.jOrgChart.css" />
+    <Content Include="Content\TeamTree\jquery.jOrgChart.js" />
+    <Content Include="HRMSDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HRMSDB.edmx</DependentUpon>
+      <LastGenOutput>HRMSDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="HRMSDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HRMSDB.edmx</DependentUpon>
+      <LastGenOutput>HRMSDB.cs</LastGenOutput>
+    </Content>
+    <Content Include="OtherFiles\XMLs\AttCodes.xml" />
+    <Content Include="OtherFiles\XMLs\Qualificatios.xml" />
+    <Content Include="result.html" />
+    <Content Include="UploadedData\CompanyLogo\Logo-20151118233923.png" />
+    <Content Include="UploadedData\CompanyLogo\test.txt" />
+    <Content Include="UploadedData\EmployeeImages - Copy\user.jpg" />
+    <Content Include="UploadedData\EmployeeImages\user.jpg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="HRMSDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HRMSDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="HRMSDB.edmx.diagram">
+      <DependentUpon>HRMSDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Content\BasicLayout\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\BasicLayout\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\BasicLayout\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\BasicLayout\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\BasicLayout\assets\fonts\FontAwesome.otf" />
+    <Content Include="Content\BasicLayout\assets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\BasicLayout\assets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\BasicLayout\assets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\BasicLayout\assets\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\ppp.pubxml" />
+    <None Include="Properties\PublishProfiles\X.pubxml" />
+    <None Include="Properties\PublishProfiles\xx.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="UploadedData\EmployeeImages\web-master_20159161633840.png" />
+    <Content Include="UploadedData\TicketFiles\dummy.txt" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AttendanceController.cs" />
+    <Compile Include="Controllers\BasicController.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\DesignationsController.cs" />
+    <Compile Include="Controllers\DocsController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LeaveController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PayrollController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\SupportController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
+    <Compile Include="Controllers\TimeSheetController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="HRMSDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HRMSDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HRMSDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HRMSDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HRMSDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CkeckAllowedAccess.cs" />
+    <Compile Include="Models\CommonFunctions.cs" />
+    <Compile Include="Models\CustomClasses\tblAttendanceCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblCommonContactsCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblDepartmentCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblDesignationCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblLeaveApplicationCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblLeaveBalanceCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblLeaveCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblMonthlySalCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblPayrollCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblPermissionCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblPolicyCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblProjectAllottedCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblProjectCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblSettingsMasterCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblSupportCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblSupportRefCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblTaskMasterCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblTimeSheetCustom.cs" />
+    <Compile Include="Models\CustomClasses\tblUserCustom.cs" />
+    <Compile Include="Models\EmployeeLeaveDisplay.cs" />
+    <Compile Include="Models\MarkAdminAttendance.cs" />
+    <Compile Include="Models\MonthlySalGenerator.cs" />
+    <Compile Include="Models\MyTicketList.cs" />
+    <Compile Include="Models\ProjectAdvanceTeam.cs" />
+    <Compile Include="Models\ProjectComments.cs" />
+    <Compile Include="Models\ReplyTicketHistory.cs" />
+    <Compile Include="Models\SupportAdminList.cs" />
+    <Compile Include="Models\TeamLeavesDashboard.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tblAttendanceMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblCommonContact.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblCommonDoc.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblDepartmentMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblDesignationMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLeaveApplicationTrack.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLeaveBalance.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLeaveMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblMenuMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblMenuRelatedAction.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblMonthySal.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblNoticeMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblPermissionMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblPolicyMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblProjectAllotted.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblProjectMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSalaryMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSettingsMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSupportAdminManager.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSupportTickedMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblTaskMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblTeamMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblTicketRef.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblTimeSheetManager.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblUserMaster.cs">
+      <DependentUpon>HRMSDB.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="packages.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Login\SecureUserLogin.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Home\EmployeeDashboard.cshtml" />
+    <Content Include="Views\Shared\_MenuPartial.cshtml" />
+    <Content Include="Views\Home\EmployeeChangePassword.cshtml" />
+    <Content Include="Views\Basic\EmployeeNoticesInsert.cshtml" />
+    <Content Include="Views\Shared\_Success.cshtml" />
+    <Content Include="Views\Basic\PermissionsView.cshtml" />
+    <Content Include="Views\Basic\ViewUsersForPermissions.cshtml" />
+    <Content Include="Views\Departments\InsertDepartment.cshtml" />
+    <Content Include="Views\Designations\InsertDesignation.cshtml" />
+    <Content Include="Views\Employee\InsertEmployee.cshtml" />
+    <Content Include="Views\Employee\UpdateEmployee.cshtml" />
+    <Content Include="Views\Employee\EditEmployee.cshtml" />
+    <Content Include="Views\Employee\EmployeeTeamView.cshtml" />
+    <Content Include="Views\Employee\ManageTeam.cshtml" />
+    <Content Include="Views\Shared\_FullTree.cshtml" />
+    <Content Include="Views\Task\InsertTask.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml" />
+    <Content Include="Views\Task\AllUserTasksPartial.cshtml" />
+    <Content Include="Views\Shared\_TaskDashboardPartial.cshtml" />
+    <Content Include="Views\Projects\InsertProject.cshtml" />
+    <Content Include="Views\Projects\AllProjectList.cshtml" />
+    <Content Include="Views\Projects\EditProject.cshtml" />
+    <Content Include="Views\Projects\ProjectTeamAllocation.cshtml" />
+    <Content Include="Views\TimeSheet\AddTimeSheetDetail.cshtml" />
+    <Content Include="Views\TimeSheet\TimeSheetTeamMember.cshtml" />
+    <Content Include="Views\Projects\ProjectFinancials.cshtml" />
+    <Content Include="Views\Basic\PolicyUpdate.cshtml" />
+    <Content Include="Views\Basic\PolicyDisplay.cshtml" />
+    <Content Include="Views\Basic\ContactUpdate.cshtml" />
+    <Content Include="Views\Basic\ContactDisplay.cshtml" />
+    <Content Include="Views\Employee\EmployeePrintView.cshtml" />
+    <Content Include="Views\Basic\EmployeeMyProfile.cshtml" />
+    <Content Include="Views\Support\ComposeTicket.cshtml" />
+    <Content Include="Views\Support\TicketHistory.cshtml" />
+    <Content Include="Views\Support\ReplyOnTicket.cshtml" />
+    <Content Include="Views\Support\ManageSupportAdmin.cshtml" />
+    <Content Include="Views\Support\TicketListAdmin.cshtml" />
+    <Content Include="Views\Support\ReplyOnTicketAdmin.cshtml" />
+    <Content Include="Views\Leave\InsertLeave.cshtml" />
+    <Content Include="Views\Employee\ManageLeaves.cshtml" />
+    <Content Include="Views\Leave\ApplyLeave.cshtml" />
+    <Content Include="Views\Leave\ApproveTeamLeave.cshtml" />
+    <Content Include="Views\Attendance\SelectAttandanceDate.cshtml" />
+    <Content Include="Views\Attendance\MarkAttendanceNewAdmin.cshtml" />
+    <Content Include="Views\Payroll\ManagePayrollBasic.cshtml" />
+    <Content Include="Views\Payroll\MonthlySalarySelect.cshtml" />
+    <Content Include="Views\Payroll\GenerateMonthlySalary.cshtml" />
+    <Content Include="Views\Payroll\SalSlips.cshtml" />
+    <Content Include="Views\Payroll\PrintSalSlip.cshtml" />
+    <Content Include="Views\Payroll\MySalSlips.cshtml" />
+    <Content Include="Views\Payroll\PrintMySalSlip.cshtml" />
+    <Content Include="Views\Attendance\MyAttendance.cshtml" />
+    <Content Include="Views\Settings\GeneralSettingsUpdate.cshtml" />
+    <Content Include="Views\Docs\AddDoc.cshtml" />
+    <Content Include="Views\Docs\DisplayDoc.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>63002</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:63002/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

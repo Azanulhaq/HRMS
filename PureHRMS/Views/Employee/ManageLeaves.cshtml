@@ -1,0 +1,190 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Manage Employee Leaves";
+}
+
+<div class="col-md-12">
+    <a href="/Employee/UpdateEmployee/" class="btn btn-sm btn-danger">Go Back</a>
+    <hr />
+    <span class="text-danger">
+
+        -The leave balance available for the employee mentioned below.
+        <br />
+        -Add or remove leaves if needed.
+    </span>
+    <hr />
+    <h5>   Employee ID: <strong>@ViewBag.EmpId</strong>  </h5>
+    <h5>   Employee Identifier: <strong>@ViewBag.UserIdentifier</strong>  </h5>
+    <h5> Employee Name: <strong>@ViewBag.UserName</strong>  </h5>
+    <span class="error-class">@ViewBag.FoundError</span>
+    <hr /> 
+
+    <span class="text-danger">
+        - Add or Remove leaves for the mentioned employee.
+    </span>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="table-responsive">
+
+
+
+
+
+                @{
+                    if (ViewBag.LeaveBal == null || Enumerable.Count(ViewBag.LeaveBal) == 0)
+                    {
+                        <div class="alert alert-danger">No Leaves Found</div>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-info btn-lg">Total Balance - @ViewBag.TotalLeaveBal</a>
+                        <br /><br />
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Leave Name </th>
+                                    <th>Day </th>
+                                    <th>Leave Count </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.LeaveBal)
+                                {
+                                    <tr>
+                                        <td>@item.LeaveName</td>
+                                        <td>@item.LeaveType</td>
+                                        <td>@item.LeaveBalance</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                }
+
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">ADD MORE LEAVES </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("AddEmployeeLeaves", "Employee", new {id= ViewBag.UserIdentifier },FormMethod.Post))
+                    {
+
+                        @Html.AntiForgeryToken()
+                      
+                        <label>Select Leave Type</label>
+                        @Html.DropDownList("ADDLeaveDDL", new SelectList(ViewBag.LeaveDLL, "LId", "LeaveName"), "-Please Select-", new { @class = "form-control" })
+                        <label>Add No OF leaves</label>
+                        @Html.TextBox("AddLeaveCount", null, new { @class = "form-control", @type = "number", @min = "1", @max = "300", @placeholder = "Ex: 5" })
+                        <br />
+                        <input type="submit" value="Add New Leaves" class="btn btn-success" />
+                    }
+                 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-danger">
+                <div class="panel-heading">REMOVE OLD LEAVES </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("RemoveEmployeeLeaves", "Employee", new { id = ViewBag.UserIdentifier }, FormMethod.Post))
+                    {
+
+                        @Html.AntiForgeryToken()
+
+                        <label>Select Leave Type</label>
+                        @Html.DropDownList("RemoveLeaveDDL", new SelectList(ViewBag.LeaveDLL, "LId", "LeaveName"), "-Please Select-", new { @class = "form-control" })
+                        <label>Add No OF leaves</label>
+                        @Html.TextBox("RemoveLeaveCount", null, new { @class = "form-control", @type = "number", @min = "1", @max = "300", @placeholder = "Ex: 5" })
+                        <br />
+                        <input type="submit" value="Remove Old Leaves" class="btn btn-danger" />
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <h4> <strong> Employee Applied Leaves </strong> </h4>
+            <hr />
+
+            @{
+                if (ViewBag.LeaveHistory == null || Enumerable.Count(ViewBag.LeaveHistory) == 0)
+                {
+                    <div class="alert alert-danger">No Leave  Applied</div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Start Date </th>
+                                    <th>For Days </th>
+                                    <th>Description </th>
+                                    <th>Status </th>
+                                    <th>Approve </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.LeaveHistory)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.StartDate.ToShortDateString()
+                                        </td>
+                                        <td>@item.NoOfDays</td>
+                                        <td>@item.ApplicantNotes</td>
+                                        <td>
+                                            @if (@item.ApproveStatus == true)
+                                            {
+                                                <text>
+                                                    <a href="#" class="btn btn-success btn-xs ">Approved</a>
+                                                </text>
+                                            }
+                                            else
+                                            {
+                                                <text><a href="#" class="btn btn-danger btn-xs">Rejected</a></text>
+
+                                            }
+
+                                        </td>
+                                        <td>
+                                            <form action="/Employee/ApproveEmployeeLeaveAdmin/?Uid=@ViewBag.UserIdentifier&LTid=@item.BLId" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="submit" class="btn btn-warning btn-xs" value="Approve" onclick="return confirm('Are you sure you want to approve leaves');" />
+                                            </form>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
+
+

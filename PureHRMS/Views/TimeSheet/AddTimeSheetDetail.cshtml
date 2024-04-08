@@ -1,0 +1,177 @@
+﻿@model PureHRMS.tblTimeSheetManager
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Fill Daily Timesheet";
+}
+
+<div class="col-md-12">
+
+
+    <div class="row">
+@using (Html.BeginForm("AddTimeSheetDetail", "TimeSheet", FormMethod.Post))
+{@Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "error-class" })
+            <div class="col-md-4">
+                <span class="error-class">@ViewBag.FoundError</span>
+                <h3> Add Your Works </h3>
+                <hr />
+              
+              
+                <h4>Select Date <small class="text-danger">( month / day / year )</small> </h4>
+                @Html.TextBoxFor(m => m.TimeDate, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker", @placeholder = "MM/DD/YYYY", @readonly = "readonly" })
+                <hr />
+                <span class="text-danger">Please enter the projects one by one on which you worked, with the relevant hours you worked.</span>
+                <br />
+                    <label>Select Project.</label>
+                    @Html.DropDownList("ddlProjects", new SelectList(ViewBag.AllProjectsAssociats, "Value", "Text"), new { @class = "form-control" })
+                    <label>Enter Hours Worked</label>
+                    @Html.TextBoxFor(m => m.TimeHours, new { @class = "form-control" })
+                    <label>Enter Comments/Notes</label>
+                    @Html.TextAreaFor(m => m.Comments, new { @class = "form-control", rows = "8" })
+                    <br />
+                    <input type="submit" value="Add Work Detail" class="btn btn-info" />
+            </div>
+        }
+            <div class="col-md-6 col-md-offset-1">
+               
+                <h3> You Worked On </h3>
+                <hr />
+                <span class="text-danger">
+                    You can delete ( Re Enter ) timesheet till 2 days after submission.
+                </span>
+                <hr />
+                <div class="table-responsive">
+
+
+                    @{
+
+                        if (ViewBag.OldEntries == null || Enumerable.Count(ViewBag.OldEntries) == 0)
+                        {
+                            <div class="alert alert-success">No Data Found</div>
+                        }
+                        else
+                        {
+                            double total = 0;
+
+
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Work Date</th>
+                                                        <th>Project Title</th>
+                                                        <th>Hours Worked</th>
+                                                        <th>Comments </th>
+                                                        <th>Entered On </th>
+                                                        <th># Action </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+
+
+                                                        foreach (var item in ViewBag.OldEntries)
+                                                        {
+                                                            total = total + Convert.ToDouble(item.TimeHours);
+                                                            <tr>
+                                                                <td>@item.TimeDate.ToShortDateString()</td>
+                                                                <td>
+                                                                    @{
+                                                                        using (HRMSConn dc = new HRMSConn())
+                                                                        {
+                                                                            int pid = Convert.ToInt32(item.refTimeProjectId);
+                                                                            var getProject = dc.tblProjectMasters.Where(x => x.ProjectId == pid).SingleOrDefault();
+                                                                            <text>@getProject.ProjectTitle</text>
+                                                                        }
+                                                                    }
+                                                                </td>
+                                                                <td>@item.TimeHours</td>
+                                                                <td>@item.Comments</td>
+                                                                <td>@item.CreatedOn.ToShortDateString()</td>
+                                                                <td>
+                                                                    @using (Html.BeginForm("DeleteTimeshhetDetail", "TimeSheet", new { id = item.TimeId }, FormMethod.Post))
+                                                                    {
+                                                                        @Html.AntiForgeryToken()
+                                                                        DateTime dt = System.DateTime.Now;
+
+                                                                        if (item.CreatedOn <= dt)
+                                                                        {
+                                                                            TimeSpan difference = dt - item.CreatedOn;
+                                                                            if (difference.Days <= 2)
+                                                                            {
+                                                                                <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete');">Delete </button>
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <text>#</text>
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <text>#</text>
+                                                                        }
+                                                                    }
+                                                                </td>
+                                                            </tr>
+
+                                                                        }
+                                                    }
+                                                </tbody>
+
+
+
+                                            </table>
+                                           
+                                       <h3>     <strong>Total Hours Worked : </strong> @total </h3>
+                                                                        }
+                       
+                    }
+
+
+                </div>
+                <hr />
+                <span class="text-danger">
+                    -If you don't see any project in 'SELECT PROJECT' dropdown ( that means your have not been assigned any project till now or all projects assigned to you are completed ) than please contact to your upper member or your reporting manager to assign a project to you.
+                    <br />
+                    - Please not you work for any project in part of hour than follow below guidelines.For example if you worked 5 HOUR AND 15 MINUTES than you will write 5.25 in 'HOURS WORKED' textbox.
+                    <br />
+                    MORE CONVERSIONS ( for example only ) :
+                    <br />
+                    15 MINUTES - 0.25 Hours
+                    <br />
+                    30 MINUTES - 0.50 HOURS
+                    <br />
+                    45 MINUTES - 0.75 HOURS
+                    <br />
+                    60 MINUTES - 1 HOUR
+                    <br />
+                    1 HOUR 45 MINUTES - 1.75 HOURS
+                </span>
+            </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+   
+    $(document).ready(function () {
+        $("#TimeDate").change(function () {
+            window.location.href = "/TimeSheet/AddTimeSheetDetail/?TimeDate=" + $("#TimeDate").val();
+        });
+        $(".datepicker").datepicker({
+            dateFormat: 'mm/dd/yy',
+            changeYear: true,
+            changeMonth: true,
+            maxDate: 0,
+        });
+    });
+
+</script>
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}

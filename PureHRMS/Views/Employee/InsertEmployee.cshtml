@@ -1,0 +1,107 @@
+﻿@model PureHRMS.tblUserMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Add Employee";
+}
+
+<div class="col-md-12">
+    <span class="text-danger">
+    - Register a new employee by filling below fields. After registration, employee can login with e-mail as username & password. 
+    <br />
+     - Make sure that you have departments and designations registered before registering employees.</span>
+    <hr />
+@using (Html.BeginForm("InsertEmployee", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{ @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "error-class" })
+    <span class="error-class">@ViewBag.FoundError</span>
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            <label>Employee Name</label>
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label>Employee Email</label>
+            @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label>Employee Date Of Birth</label>
+            @Html.TextBoxFor(m => m.Dob, new { @class = "form-control datepicker" , @placeholder="MM/DD/YYYY"})
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <label>Select Department </label>
+              @Html.DropDownListFor(m => m.DepartmentId, new SelectList(ViewBag.DeptList, "DepartmentId", "DepartmentName"), "-Please Select-", new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label>Select Designation</label>
+            @Html.DropDownListFor(m => m.DesignationId, new SelectList(string.Empty, "Value", "Text"), "-Please Select-", new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label>Upload Employee Image </label>
+            <input type="file" class="form-control" name="fileposted" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <label>Highest Qualification </label>
+     @Html.DropDownListFor(m => m.HighestQualification, new SelectList(ViewBag.QualiList, "Name"), "-Please Select-", new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label>Second Highest Qualification</label>
+            @Html.DropDownListFor(m => m.SecondHighestQualification, new SelectList(ViewBag.QualiList, "Name"), "-Please Select-", new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label>Employee ID</label>
+         @Html.TextBoxFor(m => m.EmpId, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>Enter Details</label>
+          
+            @Html.TextAreaFor(m => m.OtherDetails, new { @class = "form-control textEditorCustom" })
+        </div>
+        </div>
+    <div class="row">
+    <div class="col-md-4">
+        <br />
+<input type="submit" value="Save Employee" class="btn btn-info btn-lg" />
+        <br /><br />
+    </div>
+    </div>
+}
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#DepartmentId").change(function () {
+            $("#DesignationId").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDesignations")',
+                dataType: 'json',
+                data: { id: $("#DepartmentId").val() },
+                success: function (dataDesig) {
+                    $.each(dataDesig, function (i, DesignationId) {
+                        $("#DesignationId").append('<option value="' + DesignationId.Value + '">' +
+                         DesignationId.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed To Retrieve Designations.' + ex);
+                }
+            });
+            return false;
+        })
+    });
+</script>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}

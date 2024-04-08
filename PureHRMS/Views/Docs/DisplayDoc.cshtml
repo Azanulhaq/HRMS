@@ -1,0 +1,58 @@
+﻿@model PureHRMS.tblCommonDoc
+
+@{
+
+    ViewBag.Title = "Human Resource Management System";
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Common Documents";
+}
+<div class="col-md-12">
+    <div class="table-responsive">
+
+        @{
+            if (ViewBag.DocList == null || Enumerable.Count(ViewBag.DocList) == 0)
+            {
+                <div class="alert alert-danger">No Data Found</div>
+            }
+            else
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>File Name </th>
+                            <th>Added On </th>
+                            <th> Download </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.DocList)
+                        {
+                            <tr>
+                                <td>@item.DocName</td>
+                                <td>@item.DateAdded.ToString().Replace("12:00:00 AM", "")</td>
+
+                                <td>
+                                   <a href="~/UploadedData/@item.DocFileName" class="btn btn-success btn-xs" target="_blank">Download/See</a>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            }
+
+        }
+
+
+    </div>  
+</div>
+
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial")
+
+}
+

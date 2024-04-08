@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Action Completed";
+}
+
+
+<div class="col-md-8">
+    <div class="alert alert-success">
+        Action Completed Successfully.
+        <br />
+        <br />
+        <a href="/Home/EmployeeDashboard/" class="btn btn-info" >Back To Dashboard</a>
+    </div>
+</div>
+
+
+@section MainSidebar {
+   
+        @Html.Partial("_MenuPartial");
+
+}
+
+

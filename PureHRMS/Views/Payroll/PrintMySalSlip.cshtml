@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Print Salary Slip";
+}
+<script src="@Url.Content("~/Content/ForPrint/jQuery.print.js")"></script>
+<div class="col-md-12">
+    <style>
+        .PrintWrapper {
+            border: 1px solid #e2e2e2;
+            padding: 20px;
+        }
+    </style>
+    <div s class="PrintWrapper">
+        <div class="row">
+            <div class="row">
+                <div class="col-md-3 ">
+                    <img src="@Url.Content("~/UploadedData/CompanyLogo/"+ ViewBag.LogoName)" class="img-responsive" style="height:80px;" />
+                </div>
+                <div class="col-md-9">
+                    <h3><strong> @ViewBag.NameOfCom </strong></h3>
+                    <h5>@ViewBag.AddCon</h5>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <h4>Employee </h4>
+                @ViewBag.EN
+            </div>
+            <div class="col-md-3">
+                <h4>Designation</h4>
+                @ViewBag.Designation
+            </div>
+            <div class="col-md-3">
+                <h4>Emp. ID</h4>
+                @ViewBag.Eid
+            </div>
+            <div class="col-md-3">
+                <h4>Month/Year </h4>
+                @ViewBag.MY
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <h4>Working Days </h4>
+                @ViewBag.WkgDays
+            </div>
+            <div class="col-md-3">
+                <h4>Days Worked</h4>
+                @ViewBag.WkdDays
+            </div>
+            <div class="col-md-3">
+                <h4>Net Salary</h4>
+                @ViewBag.NS
+            </div>
+            <div class="col-md-3">
+                <h4>Salary Paid</h4>
+                @ViewBag.FSal
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <h4><strong>Deduction Details </strong> </h4>
+                <br />
+                <h4>Provident Fund :   @ViewBag.PF</h4>
+
+                <br />
+                <h4>Income TAX : @ViewBag.IT</h4>
+                <br />
+                <h4>LWP : @ViewBag.LWD</h4>
+                <br />
+                <h4>Other Deduction  :  @ViewBag.Dedc</h4>
+            </div>
+            <div class="col-md-6">
+                <h4> <strong> Addition Details  </strong></h4>
+                <br />
+                <h4> Additions :  @ViewBag.Add </h4>
+            </div>
+
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <h5> Important Notes : </h5>
+                <h6>
+                    @ViewBag.Instructions
+                </h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <br />
+            <a href="#" id="PrintData" class="btn btn btn-danger">Print This Page</a>
+            <br />
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+    $("#PrintData").click(function () {
+
+        $('.col-md-3').addClass('col-xs-3'); // ADD CLASS FOR PRINTING
+        $('.col-md-6').addClass('col-xs-6'); // ADD CLASS FOR PRINTING
+
+        $(".PrintWrapper").print({
+            globalStyles: true,
+            noPrintSelector: ".no-print"
+        });
+        return (false);
+
+});
+});
+</script>
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}

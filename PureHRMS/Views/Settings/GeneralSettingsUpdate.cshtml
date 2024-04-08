@@ -1,0 +1,56 @@
+﻿@model PureHRMS.tblSettingsMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "General Settings";
+}
+
+<div class="col-md-6">
+    @using (Html.BeginForm("GeneralSettingsUpdate", "Settings", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+      @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "error-class" })
+        <span class="error-class">@ViewBag.FoundError</span>
+        <br />
+
+        if (Model.CompanyLogo == null || Model.CompanyLogo == "")
+        {
+            ;
+        }
+        else
+        {
+            <img src="@Url.Content("~/UploadedData/CompanyLogo/"+ Model.CompanyLogo)" class="img-responsive img-thumbnail" />
+        }
+       <br />
+        <label> Company Name ( for salary Slips )</label>
+        @Html.TextBoxFor(m => m.CompanyNameSal, new { @class = "form-control" })
+        <label> Address & Conatct Details (in a signle line) </label>
+        @Html.TextBoxFor(m => m.AddressContactDetails, new { @class = "form-control" })
+        <label> Company Name ( short )</label>
+        @Html.TextBoxFor(m => m.CompanyShortName, new { @class = "form-control" })
+        <label> Fixed In Time </label>
+        @Html.TextBoxFor(m => m.InTime, new { @class = "form-control"  , placeholder="HOUR:MIN"})
+        <label> Fixed Out Time </label>
+        @Html.TextBoxFor(m => m.OutTime, new { @class = "form-control", placeholder = "HOUR:MIN" })
+        <label> Instructions for Salary Slip (at bottom) </label>
+        @Html.TextBoxFor(m => m.CompanyInstructionForSal, new { @class = "form-control" })
+        <label> Upload / Change Company Logo </label>
+        <input type="file" name="comlogo" class="form-control" />
+        <br />
+        <input type="submit" value="Save Data" class="btn btn-info" />
+    }
+ 
+</div>
+
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
+

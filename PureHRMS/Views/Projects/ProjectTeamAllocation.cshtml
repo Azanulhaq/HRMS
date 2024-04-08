@@ -1,0 +1,125 @@
+﻿@model PureHRMS.tblProjectAllotted
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Team Allocation";
+}
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+
+            <h4>  Project Id : <strong>  @ViewBag.ProjectID </strong></h4> 
+            <h4> Project Title :   <strong>  @ViewBag.ProjectTitle </strong></h4> 
+            <hr />
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+        @using (Html.BeginForm("ProjectTeamAllocation", "Projects", new { id = @ViewBag.ProjectID }, FormMethod.Post))
+        {
+             @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "error-class" })
+            <span class="error-class">@ViewBag.FoundError</span>
+            <h4><strong>Add Team Member:</strong></h4>          
+            <label>Select Employee</label>
+            @Html.DropDownList("EmpId", new SelectList(ViewBag.AllEmpList, "Value", "Text"), new { @class = "form-control" })
+            <label>Enter Allowed Hours </label>
+            @Html.TextBoxFor(m => m.AllowedHours, new { @class = "form-control" , @placeholder="example: 450"})
+            <label>Enter Per Hour Rate ( in USD )</label>
+            @Html.TextBoxFor(m => m.PerHourRate, new { @class = "form-control", @placeholder = "example: 50" })
+            <br />
+          
+            <input type="submit" value="Add Team Member" class="btn btn-info" />
+            <br />
+        }
+
+           
+        </div>
+        <div class="col-md-5">
+            <h4>  Team Members : </h4>
+               <span class="text-danger">Please delete member and re-assign hours and rate in case you made a mistake</span>
+            <br /><br />
+            <div class="row">
+                <div class="col-md-12">
+                    
+                    @{
+
+                        int chk = Convert.ToInt32(ViewBag.CountAllotedList);
+
+                        if (chk <= 0)
+                        {
+                            <text>
+                                <span class="alert alert-success">No team member assigned for this project</span>
+                            </text>
+                        }
+                        else
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Employee </th>
+                                            <th>Allowed Hours </th>
+                                            <th>Per Hour Rate </th>
+                                            <th>#Action </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+
+                                            foreach (var item in ViewBag.AllotedList)
+                                            {
+                                                using (HRMSConn dc = new HRMSConn())
+                                                {
+                                                    int uid = Convert.ToInt32(item.refEmployeeId);
+                                                    var getname = dc.tblUserMasters.Where(x => x.UserId == uid).SingleOrDefault();
+                                                    <tr>
+                                                        <td>
+                                                            @item.AllottedId
+                                                        </td>
+                                                        <td>
+                                                            @getname.FullName-@getname.EmpId
+                                                        </td>
+                                                        <td>
+                                                            @item.AllowedHours
+                                                        </td>
+                                                        <td>
+                                                            @item.PerHourRate
+                                                        </td>
+                                                        <td>
+                                                            @using (Html.BeginForm("DeleteProjectAllocation", "Projects", new { prjid = @ViewBag.ProjectID, delid = @item.AllottedId }, FormMethod.Post))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                <input type="submit" value="Delete" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete- @getname.FullName');" />
+
+                                                            }
+                                                                  </td>
+                                                    </tr>
+                                                }
+
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                                            }
+                    }
+
+
+                </div>
+            </div>
+</div>
+        </div>
+
+</div>
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
