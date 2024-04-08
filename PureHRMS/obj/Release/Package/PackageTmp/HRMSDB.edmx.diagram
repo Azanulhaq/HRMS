@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a375badc617743fa932992fc647eadf6" Name="Diagram1">
+        <EntityTypeShape EntityType="PureHRMSModel.tblAttendanceMaster" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblCommonContact" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblDepartmentMaster" Width="1.5" PointX="5.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblDesignationMaster" Width="1.5" PointX="8" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblLeaveApplicationTrack" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblLeaveBalance" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblLeaveMaster" Width="1.5" PointX="7.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblMenuMaster" Width="1.5" PointX="9.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblMenuRelatedAction" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblMonthySal" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblNoticeMaster" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblPermissionMaster" Width="1.5" PointX="3" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblPolicyMaster" Width="1.5" PointX="5.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblProjectAllotted" Width="1.5" PointX="8" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblProjectMaster" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblSalaryMaster" Width="1.5" PointX="3" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblSupportAdminManager" Width="1.5" PointX="3" PointY="27" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblSupportTickedMaster" Width="1.5" PointX="3" PointY="29.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblTaskMaster" Width="1.5" PointX="3" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblTeamMaster" Width="1.5" PointX="3" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblTicketRef" Width="1.5" PointX="5.25" PointY="29.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblTimeSheetManager" Width="1.5" PointX="3" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblUserMaster" Width="1.5" PointX="0.75" PointY="19.25" IsExpanded="true" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblAttendanceMaster_tblUserMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblDesignationMaster_tblDepartmentMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblLeaveApplicationTrack_tblUserMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblLeaveBalance_tblUserMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblMonthySal_tblUserMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblPermissionMaster_tblUserMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblProjectAllotted_tblProjectMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblSalaryMaster_tblUserMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblSupportAdminManager_tblUserMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblSupportTickedMaster_tblUserMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblTicketRef_tblSupportTickedMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblTaskMaster_tblUserMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblTeamMaster_tblUserMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="PureHRMSModel.FK_tblTimeSheetManager_tblUserMaster" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblSettingsMaster" Width="1.5" PointX="8.375" PointY="10.75" />
+        <EntityTypeShape EntityType="PureHRMSModel.tblCommonDoc" Width="1.5" PointX="10.375" PointY="10.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

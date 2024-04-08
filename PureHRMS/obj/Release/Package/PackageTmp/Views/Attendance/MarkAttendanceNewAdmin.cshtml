@@ -1,0 +1,130 @@
+﻿@model List<PureHRMS.Models.MarkAdminAttendance>
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Mark Attendance";
+}
+
+<script src="@Url.Content("~/Content/MaskJs/jquery.mask.min.js")"></script>
+
+
+<div class="col-md-12 ">
+
+   <div class="row">
+       <div class="col-md-12">
+           <a href="/Attendance/SelectAttandanceDate/" class="btn btn-sm btn-danger">Go Back</a>
+       </div>
+   </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr />
+            <h3>  DATED : <strong>@ViewBag.DateSelected</strong>  </h3> 
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger">
+                -PLease Update or Add Attendance carefully.
+                <br />
+                - Some terminologies as follows : <br/>
+                   P(PRESENT) <b>  [ FULL DAY SALARY ] </b> <br />
+                A(ABSENT) <b> [ NO SALARY ] </b> <br />
+                FDLWP (FULL DAY LEAVE WITHOUT PAY - means leave is approved by higher authorities but employee don't have leave balance )<b> [ NO SALARY ]</b><br />
+                HDLWP (HALF DAY LEAVE WITHOUT PAY - means leave is approved by higher authorities but employee don't have leave balance )<b> [ NO SALARY HALF DAY ]</b><br />
+                HDPL(HALF DAY PAID LEAVE - means employee have approved leave and also have half atleast leave balance)<b> [ HALF DAY SALARY ]</b><br />
+                FDPL(FULL DAY PAID LEAVE - means employee have approved leave and also have full day leave balance as well) <b> [ FULL DAY SALARY ]</b>
+                <br />
+                Please select attendance code carefully because salary will be calculated according to these codes.
+                <br />
+                There is leave balance shown for every employee so please select ATTENDANCE CODES according to leave balance.
+            </span>
+        </div>
+        <div class="col-md-12">
+           
+            @using (Html.BeginForm("MarkAttendanceNewAdmin", "Attendance",new { AttDate= ViewBag.DateSelected }, FormMethod.Post))
+            { @Html.AntiForgeryToken()
+                <h4>Mark Attendance Below: </h4>
+                <hr />
+
+                if(Model.Count>0)
+                {
+                   
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Emp ID  </th>
+                                        <th> Name </th>
+                                        <th>In </th>
+                                        <th>Out </th>
+                                        <th>Attendance </th>
+                                        <th>Leave Balance </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        <tr>
+                                            <td> @Html.TextBoxFor(m=> Model[i].Euid, new { @class = "form-control" , @readonly="readonly"})</td>
+                                            <td>@Html.TextBoxFor(m => Model[i].EmpId, new { @class = "form-control", @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => Model[i].EmployeeName, new { @class = "form-control", @readonly = "readonly" })</td>
+                                            <td>
+                                                @Html.TextBoxFor(m=>Model[i].InTime, new { @class = "form-control time-set" ,type="time" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(m => Model[i].OutTime, new { @class = "form-control time-set", type = "time" })
+                                            </td>
+                                            <td>
+                                                @Html.DropDownListFor(m => Model[i].AC,  new SelectList (ViewBag.ListCode, Model[i].AC), new { @class = "form-control" })
+                                            </td>
+                                            <td>
+                                                @Html.Raw(Model[i].PendingLeaves)
+                                            </td>
+                                        </tr>
+
+                                      }
+                                </tbody>
+                            </table>
+                        </div>
+
+                }
+                else
+                {
+
+
+                }
+                <br />
+                <input type="submit" value="UPDATE ATTENDANCE" class="btn btn-info btn-lg" />
+
+            }
+           
+        </div>
+       
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.time-set').mask('00:00');
+    });
+    
+</script>
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
+
+
+
+
+
+

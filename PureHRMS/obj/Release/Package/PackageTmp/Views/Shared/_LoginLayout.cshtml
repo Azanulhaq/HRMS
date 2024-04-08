@@ -1,0 +1,282 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> @ViewBag.Title</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/css/bootstrap.min.css")" rel="stylesheet" media="all" />
+    <!-- FONTAWESOME ICONS STYLES-->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <!-- DATEPICKER CSS -->
+    <link href="@Url.Content("~/Content/datepick/jquery-ui.css")" rel="stylesheet" />
+    <!-- TEXTEDITOR CSS -->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/js/summernote/summernote.css")" rel="stylesheet" />
+    <!--CUSTOM STYLES-->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/css/custom-css/green.css")" rel="stylesheet" />
+    <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="@Url.Content("~/Content/BasicLayout/assets/js/jquery-1.11.3.min.js")"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="@Url.Content("~/Content/BasicLayout/assets/js/bootstrap.min.js")"></script>
+    <!-- TEXTEDITOR SCRIPTS -->
+    <script src="@Url.Content("~/Content/BasicLayout/assets/js/summernote/summernote.js")"></script>
+    <style>
+        footer {
+    padding-top: 20px!important;
+    padding-bottom: 25px!important;
+}
+    </style>
+</head>
+<body>
+
+    <noscript>
+        <h2 style="color:red;">
+            JavaScript is disabled! Why you want to do so?
+            <br />
+            Please enable JavaScript in your web browser!
+        </h2>
+
+        <style type="text/css">
+            .main-wrapper {
+                display: none;
+            }
+
+        </style>
+    </noscript>
+    <!-- MAIN WRAPPER START -->
+    <div class="main-wrapper">
+        <!-- INNER WRAPPER START -->
+        <div class="inner-wrapper">
+           
+            <!-- HEADER START -->
+            <header>
+                <div class="overlay">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @{
+                                    using (HRMSConn dc = new HRMSConn())
+                                    {
+                                        string LogoImg = dc.tblSettingsMasters.ToList()[0].CompanyLogo;
+
+                                        <text>
+                                            <img src="@Url.Content("~/UploadedData/CompanyLogo/"+LogoImg)" class="img-responsive" style="height:80px;" />
+
+
+                                        </text>
+                                    }
+
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+            <!--  HEADER END -->
+          
+            <!-- CONTENT START -->
+            <div class="container content-section">
+
+
+                <!--ROW START-->
+                <div class="row head-line">
+                    <div class="col-md-12">
+                        <h3 style="font-weight:900;">Enter Login Details</h3>
+                    </div>
+                </div>
+                <!--ROW END-->
+                <div class="row">
+                    @RenderBody()
+
+                </div>
+            </div>
+            <!-- CONTENT END -->
+            <!-- FOOTER HEADER START -->
+            <div class="upper-footer text-center">
+                <div class="overlay">
+                    <span>
+                        @{
+                        using (HRMSConn dc = new HRMSConn())
+                        {
+                            string ShortName = dc.tblSettingsMasters.ToList()[0].CompanyShortName;
+
+                            <text>
+                                @ShortName
+                            </text>
+                        }
+
+                    }
+                </span>
+            </div>
+
+        </div>
+        <footer>
+            <div class="container">
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        All rights reserved by <strong>
+                            @{
+                                using (HRMSConn dc = new HRMSConn())
+                                {
+                                    string ShortName = dc.tblSettingsMasters.ToList()[0].CompanyShortName;
+
+                                    <text>
+                                        @ShortName
+                                    </text>
+                                }
+
+                            }
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- FOOTER HEADER ENDs -->
+    </div>
+    <!-- INNER WRAPPER END -->
+</div>
+<!-- SOME SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+<!-- DATEPICKER SCRIPTS -->
+<script src="@Url.Content("~/Content/datepick/jquery-ui.js")"></script>
+<!-- CUSTOM SCRIPTS -->
+<script src="@Url.Content("~/Content/BasicLayout/assets/js/custom.js")"></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> @ViewBag.Title</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/css/bootstrap.css")" rel="stylesheet" />
+    <!-- FONTAWESOME ICONS STYLES-->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/css/font-awesome.css")" rel="stylesheet" />
+    <!--CUSTOM STYLES-->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/css/style.css")" rel="stylesheet" />
+    <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="@Url.Content("~/Content/BasicLayout/assets/js/jquery-1.11.1.js")"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="@Url.Content("~/Content/BasicLayout/assets/js/bootstrap.js")"></script>
+</head>
+<body>
+    <noscript>
+        <h2 style="color:red;">
+            JavaScript is disabled! Why you want to do so?
+            <br />
+            Please enable JavaScript in your web browser!
+        </h2>
+
+        <style type="text/css">
+            #wrapper,footer {
+                display: none;
+            }
+        </style>
+    </noscript>
+    <div id="wrapper" style="background-color:#fff;">
+        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+
+                <a class="navbar-brand" href="/" style="width: 240px;">
+                    @{
+                        using (HRMSConn dc = new HRMSConn())
+                        {
+                            string ShortName = dc.tblSettingsMasters.ToList()[0].CompanyShortName;
+
+                            <text>
+                                @ShortName
+                            </text>
+                        }
+
+                    }
+
+                </a>
+            </div>
+
+
+        </nav>
+        <!-- /. NAV TOP  -->
+        <div id="page-wrapper" class="page-wrapper-cls">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="page-head-line">Login To Enter </h4>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    @RenderBody()
+                  
+                </div>
+
+
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <footer>
+        &copy; 2015 Employee Manager
+    </footer>
+    <!-- /. FOOTER  -->
+</body>
+</html>*@
+
+

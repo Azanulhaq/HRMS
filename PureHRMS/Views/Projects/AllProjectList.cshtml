@@ -1,0 +1,114 @@
+﻿@model  IEnumerable<PureHRMS.tblProjectMaster>
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    ViewBag.PageHead = "All Projects";
+}
+
+<div class="col-md-12">
+    <span class="text-danger">
+    - Please be carefull while deleting the project, all data associated with the project will be deleted 
+        and you will not be able to recover that data if you delete the project.
+    </span>
+    <hr />
+    <div class="table-responsive">
+        
+        @{
+            var grid = new WebGrid(Model, canPage: true, rowsPerPage: 50);
+        }
+
+        @if (grid.Rows.Count > 0)
+        {
+
+            @grid.GetHtml(
+    htmlAttributes: new { @class = "table table-bordered" },
+    columns: (
+    grid.Columns(
+        grid.Column("ProjectId", "ID"),
+          grid.Column("ProjectTitle", "Title"),
+           grid.Column("Started", format:@<text>
+            @item.StartDate.ToShortDateString()
+        </text>),
+         
+         grid.Column("Created", format:@<text>
+
+            @item.CreatedOn.ToShortDateString()
+        </text>),
+                    grid.Column("ProjectStatus", "Status"),
+
+                    grid.Column("Change Status", format:@<text>
+        <form action="/Projects/UpdateStatusProject/@item.ProjectId" method="post">
+            @Html.AntiForgeryToken()
+            <input type="submit" class="btn btn-danger btn-xs" value="In Progress / Completed" onclick="return confirm('Are You sure You want Change status of @item.ProjectTitle');" />
+        </form>
+        </text>
+
+                    ),
+
+                    grid.Column("Notes", format:@<text>
+
+            <a href="#" class="btn btn-success btn-xs" data-toggle="modal" data-target="#@item.ProjectId">View</a>
+
+            <div class="modal fade" id="@item.ProjectId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            @Html.Raw(item.ProjectNotes)
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+                    </text>
+
+            ),
+         grid.Column("All Stats", format:@<text>
+
+            <a href="/Projects/ProjectFinancials/@item.ProjectId" class="btn btn-default btn-xs">See Stats</a>
+        </text>),
+      
+           grid.Column("#Action", format:@<text>
+
+            <a href="/Projects/EditProject/@item.ProjectId" class="btn btn-info btn-xs">Edit</a>
+        </text>),
+           grid.Column("Team", format:@<text>
+
+            <a href="/Projects/ProjectTeamAllocation/@item.ProjectId" class="btn btn-warning btn-xs">Assign/Modify</a>
+        </text>),
+
+         grid.Column("#Action", format:@<text>
+            <form action="/Projects/DeleteProject/@item.ProjectId" method="post">
+                @Html.AntiForgeryToken()
+                <input type="submit" class="btn btn-danger btn-xs" value="Delete" onclick="return confirm('Are You sure You want to delete - @item.ProjectTitle');" />
+            </form>
+        </text>)
+
+
+        )
+    )
+    );
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i>No Projects Found</i>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}

@@ -1,0 +1,148 @@
+﻿@model PureHRMS.tblSalaryMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Payroll Management";
+}
+
+<div class="col-md-12">
+    @using (Html.BeginForm("ManagePayrollBasic", "Payroll", new { id = ViewBag.UserIdentifier }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "error-class" })
+        <div class="row">
+            <div class="col-md-12">
+
+                <a href="/Employee/UpdateEmployee/" class="btn btn-sm btn-danger">Go Back</a>
+                <hr />
+                <span class="text-danger">
+
+                    - Enter the SALARY STRUCTURE for the mentioned employee.
+                    <br />
+                    - If you don't need any allowance / deduction simply put 0 digit in it.Obly BASIC SALARY  is required in other fields you can put zero.
+
+                </span>
+                <hr />
+                <h5>   Employee ID: <strong>@ViewBag.UserEmpID</strong>  </h5>
+                <h5>   Employee Identifier: <strong>@ViewBag.UserIdentifier</strong>  </h5>
+                <h5> Employee Name: <strong>@ViewBag.UserName</strong>  </h5>
+                <span class="error-class">@ViewBag.FoundError</span>
+                <hr />
+
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <h4 class="text-danger"> <strong> Enter Basic Salary Details : </strong></h4>
+                <hr />
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-3">
+                Basic Salary
+            </div>
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.BasicSalary, new { @class = "form-control" })
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <hr />
+                <h4 class="text-danger"> <strong> Allowances  Details : </strong></h4>
+                <hr />
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label>House Rent / Accommodation</label>
+                @Html.TextBoxFor(m => m.HRA, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <label>Special Allowance</label>
+                @Html.TextBoxFor(m => m.SpecialAllowance, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <label> Conveyance Allowance</label>
+                @Html.TextBoxFor(m => m.ConveyanceAllowance, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <label>Meal Allowance</label>
+                @Html.TextBoxFor(m => m.MealAllowance, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+
+
+            <div class="col-md-3">
+                <label>Telephone Allowance</label>
+                @Html.TextBoxFor(m => m.TelephoneAllowance, new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-3">
+                <label>Other Allowance</label>
+                @Html.TextBoxFor(m => m.OtherAllowance, new { @class = "form-control" })
+
+            </div>
+            <div class="col-md-6">
+                <label>Other Allowance Notes ( if any )</label>
+                @Html.TextBoxFor(m => m.OtherAllowanceNotes, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <hr />
+                <h4 class="text-danger"> <strong> Deduction Details : </strong></h4>
+                <hr />
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-3">
+                <label>Provident Fund</label>
+                @Html.TextBoxFor(m => m.PF, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <label>Income Tax </label>
+                @Html.TextBoxFor(m => m.IncomeTax, new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-3">
+                <label>Other Deductions</label>
+                @Html.TextBoxFor(m => m.OtherDeduction, new { @class = "form-control" })
+
+            </div>
+            <div class="col-md-3">
+                <label>Other Deductions Notes ( if any )</label>
+                @Html.TextBoxFor(m => m.OtherDeductionNotes, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br />
+                <input type="submit" class="btn btn-info btn-lg" value="Save Details" />
+            </div>
+        </div>
+    }
+
+   
+</div>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
+

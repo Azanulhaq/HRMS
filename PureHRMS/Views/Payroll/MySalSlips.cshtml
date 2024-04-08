@@ -1,0 +1,64 @@
+﻿@model IEnumerable<PureHRMS.tblMonthySal>
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "MY Salary Slips";
+}
+
+<div class="col-md-12">
+    <h5>   Employee ID: <strong>@ViewBag.EmpId</strong>  </h5>
+    <h5>   Employee Identifier: <strong>@ViewBag.UserIdentifier</strong>  </h5>
+    <h5> Employee Name: <strong>@ViewBag.UserName</strong>  </h5>
+    <hr />
+    @{
+        var grid = new WebGrid(Model, canPage: true, rowsPerPage: 50);
+    }
+    @if (grid.Rows.Count > 0)
+    {
+        <div class="table-responsive">
+            @grid.GetHtml(
+ htmlAttributes: new { @class = "table table-bordered" },
+ columns:
+  grid.Columns(
+ grid.Column("MSId", "ID"),
+  grid.Column("Month-Year", format:@<text>
+    @item.ForMonth - @item.ForYear
+</text>),
+ grid.Column("NetSalAmt", "Salary"),
+   grid.Column("Working/Worked Days", format:@<text>
+    @item.WorkingDays / @item.DaysWorked
+</text>),
+ grid.Column("NetPaySalAmt", "Net Pay"),
+   grid.Column("Deductions (if any)", format:@<text>
+    @item.MoreDeduction  ,  @item.MoreDeductionNotes
+</text>),
+      grid.Column("Additions (if any)", format:@<text>
+        @item.MoreAddition  ,  @item.MoreAdditionNotes
+    </text>),
+   grid.Column("FinalSalAmt", "Amt. Paid"),
+    grid.Column("Salary Slip", format:@<text>
+    <a href="/Payroll/PrintSalSlip/@item.MSId" class="btn btn-xs btn-success">View / Print</a>
+    </text>)
+ )
+ )
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <i>No Record Found</i>
+        </div>
+    }
+</div>
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
+
+

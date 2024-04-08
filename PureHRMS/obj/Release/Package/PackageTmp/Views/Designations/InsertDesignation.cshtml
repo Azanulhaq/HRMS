@@ -1,0 +1,135 @@
+﻿@model  PureHRMS.tblDesignationMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Manage Designations";
+}
+
+<div class="col-md-4">
+    <span class="text-danger">Add New Designation</span>
+@using (Html.BeginForm("InsertDesignation", "Designations", FormMethod.Post))
+{@Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "error-class" })
+    <label>Select Department :</label>
+    @Html.DropDownList("RefDepartmentId", new SelectList(ViewBag.DeptList, "DepartmentId", "DepartmentName"), "-Please Select-", new { @class = "form-control" })
+    <label>Enter Designation :</label>
+    @Html.TextBoxFor(m => m.DesignationName, new { @class = "form-control" })
+    <br />
+    <input type="submit" class="btn btn-info " value="Add Designation" />
+    <br /><br />
+}
+
+   
+</div>
+<div class="col-md-8">
+    <span class="text-danger">
+         Please don't delete DESIGNATION if you have assigned that designation to any employee. If you want to delete designation , please delete EMPLOYEES of that designations ( or assign some other designation to employees ) first.
+    </span>
+    <hr />
+    <span class="text-danger">Edit/Delete Designations</span>
+    <hr />
+    <div class="table-responsive">
+       
+
+        @{
+
+            using (HRMSConn dc = new HRMSConn())
+            {
+                var dataDesig = dc.tblDesignationMasters.OrderBy(x => x.RefDepartmentId).ToList();
+                if (dataDesig.Count<=0)
+                {
+                    <div class="alert alert-danger">No Designations Found</div>
+                }
+                else
+                {
+                   
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Desig. ID</th>
+                                <th>Designation  </th>
+                                <th> Department </th>
+                                <th># Action </th>
+                                <th># Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < dataDesig.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @dataDesig[i].DesignationId
+                                    </td>
+                                    <td>
+                                        @dataDesig[i].DesignationName
+                                    </td>
+                                    <td>
+                                        @{
+                                            int depid = Convert.ToInt32(dataDesig[i].RefDepartmentId);
+                                            var departmentName = dc.tblDepartmentMasters.Where(x => x.DepartmentId == depid).SingleOrDefault();
+
+                                        }
+                                        @departmentName.DepartmentName
+
+                                    </td>
+
+                                    <td>
+                                        <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target="#@dataDesig[i].DesignationId">Edit</a>
+                                        @using (Html.BeginForm("UpdateDesignation", "Designations", new { id = dataDesig[i].DesignationId }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <div class="modal fade" id="@dataDesig[i].DesignationId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myModalLabel">
+
+                                                                Edit Designation
+                                                            </h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <label>Select Department :</label>
+                                                            @Html.DropDownList("RefDepartmentId", new SelectList(ViewBag.DeptList, "DepartmentId", "DepartmentName", dataDesig[i].RefDepartmentId), null, new { @class = "form-control" })
+                                                            <label>Enter Designation :</label>
+                                                            <input type="text" name="desigName" required="required" class="form-control" value="@dataDesig[i].DesignationName" />
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success">UPDATE </button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @using (Html.BeginForm("DeleteDesignation", "Designations", new { id = dataDesig[i].DesignationId }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete - @dataDesig[i].DesignationName');">Delete </button>
+                                        }
+                                    </td>
+                                </tr>
+
+                                            }
+                        </tbody>
+                    </table>
+
+                                                }
+
+                                            }
+        }
+
+
+    </div>
+</div>
+    @section MainSidebar {
+
+        @Html.Partial("_MenuPartial");
+
+
+    }

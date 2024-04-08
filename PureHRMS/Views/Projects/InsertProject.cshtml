@@ -1,0 +1,59 @@
+﻿@model PureHRMS.tblProjectMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Add New Project";
+}
+
+<div class="col-md-9">
+    @using (Html.BeginForm("InsertProject", "Projects",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "error-class" })
+        <span class="error-class">@ViewBag.FoundError</span>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <label>Enter Project Title </label>
+                @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Start Date </label>
+                @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control datepicker", @placeholder = "MM/DD/YYYY", @readonly = "readonly" })
+            </div>
+            <div class="col-md-4">
+                <label>Estimated End Date </label>
+                @Html.TextBoxFor(m => m.EstEndDate, new { @class = "form-control datepicker", @placeholder = "MM/DD/YYYY", @readonly = "readonly" })
+            </div>
+            <div class="col-md-4">
+                <label>Actual End Date </label>
+                @Html.TextBoxFor(m => m.ActEndDate, new { @class = "form-control datepicker", @placeholder = "MM/DD/YYYY", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Enter Feedback / Notes </label>
+                @Html.TextAreaFor(m => m.ProjectNotes, new { @class = "form-control textEditorCustom" })
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br />
+                <input type="submit" value="Add Project" class="btn btn-info" />
+            </div>
+        </div>
+    }
+  
+    </div>
+        @section MainSidebar {
+
+            @Html.Partial("_MenuPartial");
+
+
+        }
+
+

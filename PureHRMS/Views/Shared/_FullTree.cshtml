@@ -1,0 +1,87 @@
+﻿<script src="@Url.Content("~/Content/TeamTree/jquery.jOrgChart.js")"></script>
+<link href="@Url.Content("~/Content/TeamTree/jquery.jOrgChart.css")" rel="stylesheet" />
+<style>
+    .jOrgChart .node {
+        background-color: transparent;
+        cursor: pointer !Important;
+        color: #fff;
+        padding: 5px;
+        width: inherit;
+        height: inherit;
+        margin: 5px;
+    }
+</style>
+<div class="col-md-12 text-center">
+    <div style="overflow:auto">
+        <div id="chart" class="orgChart">
+            <ul id="org" style="display:none">
+                @{
+                using (HRMSConn dc = new HRMSConn())
+                {
+                    var getroot = dc.tblTeamMasters.Where(x => x.TeamUsers == x.TeamParentUser).ToList();
+                    if (getroot.Count == 1)
+                    {
+                        int rootid = Convert.ToInt32(getroot[0].TeamUsers);
+            @ShowTeamTree(rootid)
+                    }
+
+                }
+
+                }
+
+
+
+            </ul>
+        </div>
+    </div>
+    </div>
+@helper ShowTeamTree(int userid)
+{
+
+using (HRMSConn dc = new HRMSConn())
+{
+    int employeeid = userid;
+    var getchilds = dc.tblTeamMasters.Where(y => y.TeamParentUser == employeeid && y.TeamParentUser != y.TeamUsers).ToList();
+
+        <li>
+
+            @{
+                var getDetails = dc.tblUserMasters.Where(z => z.UserId == employeeid).SingleOrDefault();
+
+            }
+
+
+            <a href="#" class="btn team-btn btn-xs">
+                @getDetails.FullName
+                <br />
+                 @getDetails.EmpId
+            </a>
+
+
+            @if (getchilds.Count > 0)
+            {
+                <ul>
+
+                    @for (int i = 0; i < getchilds.Count; i++)
+            {
+                int empidnew = Convert.ToInt32(getchilds[i].TeamUsers);
+
+                        @ShowTeamTree(empidnew);
+
+            }
+
+                </ul>
+            }
+
+        </li>
+
+
+                }
+}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $("#org").jOrgChart({
+            chartElement: '#chart'
+        });
+    });
+</script>

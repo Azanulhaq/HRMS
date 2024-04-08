@@ -1,0 +1,67 @@
+﻿@model PureHRMS.tblProjectMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Edit Project";
+}
+
+
+<div class="col-md-9">
+    <a href="/Projects/AllProjectList/" class="btn btn-sm btn-danger">Go Back</a>
+    <hr />
+    <span class="text-danger">You can edit the basic project details below.</span>
+    <hr />
+    <h3>  PROJECT ID: @Model.ProjectId</h3> 
+    @using (Html.BeginForm("EditProject", "Projects",new { id=Model.ProjectId }, FormMethod.Post))
+    {@Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "error-class" })
+             
+        <div class="row">
+            <div class="col-md-12">
+                <span class="error-class">@ViewBag.FoundError</span>
+                <br />
+                <label>Enter Project Title </label>
+                @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Start Date </label>
+                @Html.TextBoxFor(m => m.StartDate, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker", @placeholder = "MM/DD/YYYY", @readonly = "readonly" })
+            </div>
+            <div class="col-md-4">
+                <label>Estimated End Date </label>
+                @Html.TextBoxFor(m => m.EstEndDate, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker", @placeholder = "MM/DD/YYYY", @readonly = "readonly" })
+            </div>
+            <div class="col-md-4">
+                <label>Actual End Date </label>
+                @Html.TextBoxFor(m => m.ActEndDate, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker", @placeholder = "MM/DD/YYYY", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Enter Feedback / Notes </label>
+                @Html.TextAreaFor(m => m.ProjectNotes, new { @class = "form-control textEditorCustom" })
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br />
+                <input type="submit" value="Update Project" class="btn btn-info" />
+            </div>
+        </div>
+    }
+
+</div>
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
+
+

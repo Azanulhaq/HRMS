@@ -1,0 +1,119 @@
+﻿@model PureHRMS.tblUserMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Edit Employee";
+}
+
+<div class="col-md-12" >
+    <a href="/Employee/UpdateEmployee/" class="btn btn-sm btn-danger">Go Back</a>
+    <hr />
+    @using (Html.BeginForm("EditEmployee", "Employee", new { id=Model.UserId}, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    { @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "error-class" })
+        <span class="error-class">@ViewBag.FoundError</span>
+        <br />
+        @Html.HiddenFor(m => m.UserId)
+        <div class="row">
+            <div class="col-md-4">
+                <label>Employee Name</label>
+                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <label>Employee Email</label>
+                @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <label>Employee Date Of Birth</label>
+                @Html.TextBoxFor(m => m.Dob, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Select Department </label>
+                @Html.DropDownListFor(m => m.DepartmentId, new SelectList(ViewBag.DeptList, "DepartmentId", "DepartmentName"), new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <label>Select Designation</label>
+                @Html.DropDownListFor(m => m.DesignationId, new SelectList(ViewBag.DesigList, "DesignationId", "DesignationName"), "-Please Select-", new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <label>Update Employee Image </label>
+                <input type="file" class="form-control" name="fileposted" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Highest Qualification </label>
+                @Html.DropDownListFor(m => m.HighestQualification, new SelectList(ViewBag.QualiList, "Name"), "-Please Select-", new { @class = "form-control" })
+                <label>Second Highest Qualification</label>
+                @Html.DropDownListFor(m => m.SecondHighestQualification, new SelectList(ViewBag.QualiList, "Name"), "-Please Select-", new { @class = "form-control" })
+                
+
+             </div>
+            <div class="col-md-4">
+                <label>Employee ID</label>
+                @Html.TextBoxFor(m => m.EmpId, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                @if (Model.ImagePath == null || Model.ImagePath.ToString() == "")
+                {
+                    <img src="@Url.Content("~/UploadedData/EmployeeImages/user.jpg")" class="img-thumbnail edit-employee-image"  />
+                }
+                else
+                {
+                    <img src="@Url.Content("~/UploadedData/EmployeeImages/"+Model.ImagePath.ToString())" class="img-thumbnail edit-employee-image" />
+
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Enter Details</label>
+
+                @Html.TextAreaFor(m => m.OtherDetails, new { @class = "form-control textEditorCustom" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <br />
+                <input type="submit" value="Save Employee" class="btn btn-info btn-lg" />
+                <br /><br />
+            </div>
+        </div>
+
+   
+    }
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#DepartmentId").change(function () {
+            $("#DesignationId").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDesignations")',
+                dataType: 'json',
+                data: { id: $("#DepartmentId").val() },
+                success: function (dataDesig) {
+                    $.each(dataDesig, function (i, DesignationId) {
+                        $("#DesignationId").append('<option value="' + DesignationId.Value + '">' +
+                         DesignationId.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed To Retrieve Designations.' + ex);
+                }
+            });
+            return false;
+        })
+    });
+   
+</script>
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}

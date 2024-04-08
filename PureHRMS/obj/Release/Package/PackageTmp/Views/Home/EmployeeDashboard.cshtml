@@ -1,0 +1,240 @@
+﻿
+@{
+    ViewBag.Title ="Human Resource Management System";
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Dashboard";
+}
+
+<style>
+ 
+</style>
+   
+       <div class="col-md-12">
+    <h4>Hello, <strong>@ViewBag.EmployeeName </strong> </h4>
+    <h5>Good to see you here</h5>
+           <span class="error-class">@ViewBag.FoundError</span>
+</div>
+
+
+<div class="col-md-12">
+    <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <h4>RECENT NOTICES : </h4>
+                <hr />
+                @if (ViewBag.Notices == null || Enumerable.Count(ViewBag.Notices) == 0)
+                {
+                    <div class="alert alert-success" >
+                        No Notice Found
+                    </div>
+                }
+                else
+                {
+                    <div class="widget-wrapper">
+                        <ul>
+
+
+
+
+                            @{
+                                foreach (var item in ViewBag.Notices)
+                                {
+                                    <li>
+                                        <span class="glyphicon glyphicon-folder-open"></span>    @item.NoticeTitle
+                                        <a href="#" data-toggle="modal" data-target="#@item.NoticeId"> <small> read more </small></a>
+                                        <div class="modal" id="@item.NoticeId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="myModalLabel">
+                                                            @item.NoticeTitle
+                                                        </h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @item.NoticeDescription
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal">Close</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            }
+
+
+
+                        </ul>
+                    </div>
+                                }
+                
+                <hr />
+                <div class="alert alert-info">
+                    <h3>   @ViewBag.EmployeeUnread  </h3>
+                    New  Tickets
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4><strong>Assigned Tasks:</strong></h4>
+                    @{
+
+                        using (HRMSConn dc = new HRMSConn())
+                        {
+                            int ato = Convert.ToInt32(ViewBag.Identifier);
+
+                            var datanew = dc.tblTaskMasters.Where(x => x.AssignTo == ato).OrderByDescending(x => x.TaskId).ToList();
+
+                            @Html.Partial("_TaskDashboardPartial", datanew);
+                        }
+
+                    }
+                <hr />
+                <h4><strong>Assigned Projects: </strong></h4>
+               
+            @{
+                if (ViewBag.ProjectAllowtedHours == null || Enumerable.Count(ViewBag.ProjectAllowtedHours) == 0)
+                {
+                    <div class="alert alert-danger">No Data Found</div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Project Title</th>
+                                    <th>Hours Allotted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.ProjectAllowtedHours)
+                            {
+                            <tr>
+                                <td>@item.Text</td>
+                                <td>@item.Value</td>
+                            </tr>
+
+                            }
+                            </tbody>
+                        </table>
+
+                    </div>
+                }
+            }
+                <hr />
+                <h4><strong>UnApproved Team Leaves :</strong></h4>
+                @{
+                    if (ViewBag.DashTeamLeaves == null || Enumerable.Count(ViewBag.DashTeamLeaves) == 0)
+                    {
+                        <div class="alert alert-success">No Data Found</div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Name </th>
+                                        <th>Department</th>
+                                        <th>Designation</th>
+                                        <th>Start Date</th>
+                                        <th>Days</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.DashTeamLeaves)
+                                    {
+                                        <tr>
+                                            <td>@item.EmpName</td>
+                                            <td>@item.Department</td>
+                                            <td>@item.Designation</td>
+                                            <td>@item.StartDate.ToShortDateString()</td>
+                                            <td>@item.Days</td>
+                                            <td>
+                                                <a href="/Leave/ApproveTeamLeave/@item.EUid" class="btn btn-success btn-xs">See</a>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    }
+                }
+
+
+            </div>
+        <div class="col-md-3">
+            <h4>MARK ATTENDANCE IN/OUT : </h4>
+            <hr />
+            <div class="alert alert-success">
+                <h4>  @System.DateTime.Now.Date.ToShortDateString() </h4>
+                <h3> <span id="CurrentTimeIn"></span> </h3>
+                <hr />
+                @using (Html.BeginForm("MarkSelfAttendanceIn", "Home", FormMethod.Post))
+                {@Html.AntiForgeryToken()
+                    <input type="submit" class="btn btn-success" value="MARK ME IN" />
+                }
+                
+            </div>
+            <hr />
+            <div class="alert alert-danger">
+                <h4>  @System.DateTime.Now.Date.ToShortDateString() </h4>
+                <h3> <span id="CurrentTimeOut"></span> </h3>
+                <hr />
+                @using (Html.BeginForm("MarkSelfAttendanceOut", "Home", FormMethod.Post))
+                {@Html.AntiForgeryToken()
+                    <input type="submit" class="btn btn-danger" value="MARK ME OUT" />
+                }
+
+            </div>
+            <hr />
+            @if (Convert.ToBoolean(ViewBag.IsSupAdmin) == true)
+            {
+            <div class="alert alert-warning">
+                <h3>  @ViewBag.AdminUnread </h3>
+                New  Employee Tickets
+            </div>
+                }
+           
+           
+            
+
+            
+        </div>
+
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+ShowTime();
+});
+function ShowTime() {
+var dt = new Date();
+document.getElementById("CurrentTimeIn").innerHTML = dt.toLocaleTimeString();
+document.getElementById("CurrentTimeOut").innerHTML = dt.toLocaleTimeString();
+window.setTimeout("ShowTime()", 1000); // Here 1000(milliseconds) means one 1 Sec
+}
+</script>
+  
+
+
+
+
+    @section MainSidebar {
+      
+            @Html.Partial("_MenuPartial");
+
+    }
+

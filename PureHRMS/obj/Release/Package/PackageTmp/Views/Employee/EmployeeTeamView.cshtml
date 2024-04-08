@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Employee Team ";
+}
+<script src="@Url.Content("~/Content/TeamTree/jquery.jOrgChart.js")"></script>
+<link href="@Url.Content("~/Content/TeamTree/jquery.jOrgChart.css")" rel="stylesheet" />
+<style>
+   .jOrgChart .node {
+    background-color:transparent;
+    cursor: pointer!Important;
+    color: #fff;
+    padding: 5px;
+    width: inherit;
+    height: inherit;
+    margin:5px;
+}
+</style>
+<div class="col-md-12">
+    <span class="text-danger">
+        -Below is your team members. Also note that you can't assign any task to yourself.
+        <br />
+        -You can SEE TIMESHEET & ASSIGN TASK to your team members by clicking on EMPLOYEE NAME & ASSIGN TASK link respectively.
+    </span>
+    <hr />
+    <div style="overflow:auto">
+
+        <div id="chart" class="orgChart">
+            <ul id="org" style="display:none">
+
+                @ShowTeamTree(Convert.ToInt32(Session["UserIdentfier"]))
+
+            </ul>
+        </div>
+
+    </div>
+</div>
+@helper ShowTeamTree(int userid)
+{
+
+using (HRMSConn dc = new HRMSConn())
+{
+    int employeeid = userid;
+    var getchilds = dc.tblTeamMasters.Where(y => y.TeamParentUser == employeeid && y.TeamParentUser != y.TeamUsers).ToList();
+
+<li>
+      
+  @{
+      var getDetails = dc.tblUserMasters.Where(z => z.UserId == employeeid).SingleOrDefault();
+      int deptid = Convert.ToInt32(getDetails.DepartmentId);
+      int DesignationId = Convert.ToInt32(getDetails.DesignationId);
+      string getDepartment = "";
+      string getDesignation = "";
+      if (deptid != 0)
+      {
+           getDepartment = dc.tblDepartmentMasters.Where(a => a.DepartmentId == deptid).SingleOrDefault().DepartmentName;
+           getDesignation = dc.tblDesignationMasters.Where(a => a.DesignationId == DesignationId).SingleOrDefault().DesignationName;
+      }
+  }
+
+
+    <a href="/TimeSheet/TimeSheetTeamMember/@getDetails.UserId" class="btn team-btn btn-xs"   title="See Timesheet for - @getDetails.FullName  [ @getDesignation in  @getDepartment]" >
+        @getDetails.FullName
+        <br />
+      @getDetails.EmpId
+    </a>
+    <br />
+    <a href="/Task/InsertTask/@getDetails.UserId"   title="Assign & See Tasks for - @getDetails.FullName  [ @getDesignation in  @getDepartment]" class="btn btn-default btn-xs" > Assign Task</a>
+    <br />
+    <a href="/Leave/ApproveTeamLeave/@getDetails.UserId" class="btn btn-warning btn-xs" >See Leaves</a>
+    @if (getchilds.Count > 0)
+    {
+        <ul>
+
+            @for (int i = 0; i < getchilds.Count; i++)
+            {
+            int empidnew = Convert.ToInt32(getchilds[i].TeamUsers);
+
+            @ShowTeamTree(empidnew);
+
+        }
+
+        </ul>
+    }
+
+</li>
+
+
+}
+}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $("#org").jOrgChart({
+            chartElement: '#chart'
+        });
+    });
+</script>
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}

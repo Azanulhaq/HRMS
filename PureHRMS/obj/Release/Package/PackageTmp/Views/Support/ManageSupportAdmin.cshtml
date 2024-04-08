@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Admin Management";
+}
+
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-5">
+            @using (Html.BeginForm("ManageSupportAdmin", "Support", FormMethod.Post))
+            {
+                <h4>Add Support Admin</h4>
+                @Html.AntiForgeryToken()
+                <span class="error-class">@ViewBag.FoundError</span>
+                <hr />
+                <label>Select Department</label>
+                @Html.DropDownList("DeptId", new SelectList(ViewBag.DepartmentList, "DepartmentId", "DepartmentName"), "-Please Select-", new { @class = "form-control" })
+                <label>Select Employee</label>
+                @Html.DropDownList("empDDL", new SelectList(ViewBag.EmployeeList, "UserIdentifier", "UserDisplay"), new { @class = "form-control" })
+                <br />
+                <input type="submit" value="Add Support Admin" class="btn btn-info " />
+            }
+
+           
+        </div>
+        <div class="col-md-7">
+            <h4>Support Admin List</h4>
+            <hr />
+            <span class="text-danger">
+                - Remove support admin below if you want to restrict access to any employee.
+            </span>
+            <hr />
+            @{
+                if (ViewBag.SuppAL == null || Enumerable.Count(ViewBag.SuppAL) == 0)
+                {
+                    <div class="alert alert-danger">No Support Admin Found</div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID </th>
+                                    <th>Employee </th>
+                                    <th>Department</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.SuppAL)
+                            {
+                            <tr>
+                                <td>@item.ID</td>
+                                <td>@item.Employee</td>
+                                <td>@item.Department</td>
+                                <td>
+                                    <form action="/Support/DeleteSupportAdmin/@item.ID" method="post" >
+                                        @Html.AntiForgeryToken()
+                                        <input type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are Your sure you want to remove access from  @item.Employee ');" value="Remove" />
+
+                                    </form>
+                                </td>
+                            </tr>
+
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}

@@ -1,0 +1,38 @@
+﻿@model PureHRMS.tblSupportTickedMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Raise New Ticket";
+}
+
+<div class="col-md-9">
+    <a href="/Support/TicketHistory/" class="btn btn-sm btn-danger">Go Back</a>
+    <hr />
+    @using (Html.BeginForm("ComposeTicket", "Support", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "error-class" })
+        <span class="error-class">@ViewBag.FoundError</span>
+        <br />
+        <label>Select Department</label>
+        @Html.DropDownList("DeptId", new SelectList(ViewBag.DepartmentList, "DepartmentId", "DepartmentName"), "-Please Select-", new { @class = "form-control" })
+        <label>Enter Subject</label>
+        @Html.TextBoxFor(m => m.TSubject, new { @class = "form-control" })
+        <label>Enter Description</label>
+        @Html.TextArea("descrip", new { @class = "form-control textEditorCustom" })
+        <label>Select File (if any) </label>
+        <input type="file" class="form-control" name="fileposted" />
+
+        <br />
+        <input type="submit" class="btn btn-info" value="Raise Ticked" />
+    }
+ 
+
+</div>
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}

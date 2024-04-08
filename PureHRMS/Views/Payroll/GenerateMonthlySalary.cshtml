@@ -1,0 +1,137 @@
+﻿@model List<PureHRMS.Models.MonthlySalGenerator>
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Salary Details";
+}
+
+<div class="col-md-12 ">
+
+    <div class="row">
+        <div class="col-md-12">
+            <a href="/Payroll/MonthlySalarySelect/" class="btn btn-sm btn-danger">Go Back</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr />
+            <h3>  MONTH-YEAR : <strong>@ViewBag.MY</strong>  </h3>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger">
+                -Below is the current month salaries, please make sure all details are correct because can't be able to modify salaries once they are saved and locked.              
+           <br />
+                Please put zeros (if don't have already) if don't have any Deductions / Additions.
+             </span>
+        </div>
+        <div class="col-md-12">
+
+            @using (Html.BeginForm("GenerateMonthlySalary", "Payroll", new { SalDate = ViewBag.MY }, FormMethod.Post))
+            { @Html.AntiForgeryToken()
+                <h4>Mark Attendance Below: </h4>
+                <hr />
+
+                if (Model.Count > 0)
+                {
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Emp ID  </th>
+                                    <th> Name </th>
+                                    <th>Net Salary </th>
+                                    <th>Working Days </th>
+                                    <th>Days Worked </th>
+                                    <th>Ney Payable </th>
+                                    <th>Deductions </th>
+                                    <th>Deduction Notes </th>
+                                    <th>Additions </th>
+                                    <th>Addition Notes </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+                                    <tr>
+                                        <td> @Html.TextBoxFor(m => Model[i].Euid, new { @class = "form-control", @readonly = "readonly" })</td>
+                                        <td>@Html.DisplayFor(m => Model[i].EmpID, new { @class = "form-control", @readonly = "readonly" })</td>
+                                        <td>@Html.DisplayFor(m => Model[i].Name, new { @class = "form-control", @readonly = "readonly" })</td>
+                                        <td>
+                                            @Html.TextBoxFor(m => Model[i].NetSalaryAmount, new { @class = "form-control", @readonly = "readonly" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => Model[i].WorkingDays, new { @class = "form-control", @readonly = "readonly" })
+                                           
+                                         </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => Model[i].DaysWorked, new { @class = "form-control", @readonly = "readonly" })
+                                            @if (Convert.ToInt32(Model[i].DaysWorked) < Convert.ToInt32(Model[i].WorkingDays))
+                                            {
+                                                <span class="label label-warning">- LESS WORK</span>
+                                            }
+                                          </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => Model[i].NetPayAmt, new { @class = "form-control", @readonly = "readonly" })
+                                           
+                                            @if (Convert.ToInt32(Model[i].NetPayAmt) < Convert.ToInt32(Model[i].NetSalaryAmount))
+                                            {
+                                                <span class="label label-danger">- LESS PAY</span>
+                                            }
+                                          </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => Model[i].MoreDeductions, new { @class = "form-control" ,@type="number", @min = "0" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => Model[i].MoreDeductionsNotes, new { @class = "form-control" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => Model[i].MoreAddition, new { @class = "form-control", @type = "number", @min = "0" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => Model[i].MoreAdditionNotes, new { @class = "form-control" })
+                                        </td>
+                                       
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="alert alert-info" >
+                        NO DATA FOUND
+                    </div>
+
+                }
+                <br />
+                <input type="submit" value="SAVE & LOCK SALARY" class="btn btn-info btn-lg" onclick="return confirm('Please check all details. You would not be able to  modify it in future')" />
+
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
+
+
+

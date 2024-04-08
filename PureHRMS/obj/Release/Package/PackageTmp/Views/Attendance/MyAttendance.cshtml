@@ -1,0 +1,107 @@
+﻿@model  IEnumerable<PureHRMS.tblAttendanceMaster>
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "My Attendance";
+}
+
+<div class="col-md-12">
+  <label> Select any date from the month to see attendance</label>
+    <input type="text"  id="AttDate" placeholder="MM/DD/YYYY" name="AttDate" readonly="readonly" class="form-control datepicker" required="required" value="@ViewBag.DateSet" />
+    <br />
+    <hr />
+    @{
+        var grid = new WebGrid(Model, canPage: true, rowsPerPage: 31);
+    }
+    @if (grid.Rows.Count > 0)
+    {
+        <div class="table-responsive">
+            @grid.GetHtml(
+ htmlAttributes: new { @class = "table table-bordered" },
+ columns:
+  grid.Columns(
+    grid.Column("Date", format:@<text>
+    @item.AttendanceDate.ToShortDateString()
+    </text>),
+       grid.Column("In", format:@<text>
+            @{
+                int lnght = item.ClockIn.ToString().Length;
+                if (lnght > 5)
+                {
+                    <text>@item.ClockIn.ToString().Substring(0, 5)</text>
+                }
+                else
+                {
+                    <text>@item.ClockIn.ToString()</text>
+
+                }
+            }
+           
+    </text>),
+       grid.Column("Out", format:@<text>
+                    @{
+                        int lnght = item.ClockOut.ToString().Length;
+                        if (lnght > 5)
+                        {
+                            <text>@item.ClockOut.ToString().Substring(0, 5)</text>
+                        }
+                        else
+                        {
+                            <text>@item.ClockOut.ToString()</text>
+
+                        }
+                    }
+
+    </text>),
+       grid.Column("Code", format:@<text>
+                            @{
+                                string codetxt = item.AttandanceCode.ToString();
+                                if (codetxt =="P" || codetxt == "HDPL" || codetxt == "FDPL")
+                                {
+                                    <a href="#" class="btn btn-success btn-sm">@item.AttandanceCode</a>
+                                }
+                                else
+                                {
+                                    <a href="#" class="btn btn-danger btn-sm">@item.AttandanceCode</a>
+
+                                }
+                            }
+
+    </text>)
+       )
+ )
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <i>No Record Found</i>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#AttDate").change(function () {
+            window.location.href = "/Attendance/MyAttendance/?AttDate=" + $("#AttDate").val();
+        });
+        $(".datepicker").datepicker({
+            dateFormat: 'mm-yy',
+            changeYear: true,
+            changeMonth: true,
+            maxDate: 0,
+        });
+    });
+
+</script>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}

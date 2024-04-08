@@ -1,0 +1,25 @@
+﻿@model PureHRMS.tblPolicyMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Company Policies";
+}
+
+<div class="col-md-12">
+
+    <span class="text-danger">Below are the company policies and code of conduct which you need to follow in office.</span>
+    <hr />
+        @Html.Raw(Model.PolicyText)
+  
+
+</div>
+
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}

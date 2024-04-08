@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Generate Salary";
+}
+
+<div class="col-md-12">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Generate Monthly Salary </div>
+                <div class="panel-body">
+                    <span class="text-danger">
+                        Please select any date from the month & year  for which you want to generate salary 
+                        <br />
+                        <span class="error-class">@ViewBag.FoundError</span>
+                        <br />
+                    </span>
+                    @using (Html.BeginForm("GenerateMonthlySalary", "Payroll", FormMethod.Get))
+                    {
+
+                        <input type="text" class="form-control datepicker" name="SalDate" readonly="readonly" placeholder="MM/DD/YYYY" />
+                            <br />
+                            <input type="submit" value="Generate Salary" class="btn btn-success btn-lg" />
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(".datepicker").datepicker({
+            dateFormat: 'mm-yy',
+            changeYear: true,
+            changeMonth: true,
+            maxDate: 0,
+        });
+    });
+
+</script>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
+
