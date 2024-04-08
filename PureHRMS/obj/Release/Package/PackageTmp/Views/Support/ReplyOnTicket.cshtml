@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Ticket Details ";
+}
+
+<div class="col-md-12">
+    <a href="/Support/TicketHistory/" class="btn btn-sm btn-danger">Go Back</a>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <h3> TICKET ID : @ViewBag.TicketId</h3>
+            <h4> Subject : @ViewBag.TicketSub</h4>
+            <h4>Department : @ViewBag.DeptName</h4>
+            <hr />
+            <span class="error-class">@ViewBag.FoundError</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="text-success">  Ticket Communication : </h3>
+            <br />
+            <div class="table-responsive">
+
+
+
+
+
+                @{
+                    if (ViewBag.TicketList == null || Enumerable.Count(ViewBag.TicketList) == 0)
+                    {
+                        <div class="alert alert-danger">No Tickets Found</div>
+                    }
+                    else
+                    {
+                        <table class="table table-bordered">
+                           
+                            <tbody>
+                                @foreach (var item in ViewBag.TicketList)
+                                {
+                                    <tr>
+                                       <td>
+                                       <div class="alert alert-info">
+                                           <span > Created : @item.Date.ToShortDateString()</span>    ,
+                                           <span > By : @item.CreatedBy </span>  
+                                       </div>
+                                           @Html.Raw(item.Text)
+                                          <br />
+                                           @if(item.AttachedFile!="")
+                                           {
+                                            <a target="_blank" href="@Url.Content("~/UploadedData/TicketFiles/"+@item.AttachedFile)" class="btn btn-danger btn-xs">See Attached File</a>    
+                                           }
+                                           <br /><br />
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr />
+            <h4> <strong> REPLY ON THIS TICKET : </strong> </h4>
+            <hr />
+            @using (Html.BeginForm("ReplyOnTicket", "Support", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+              
+                @Html.TextArea("descrip", new { @class = "form-control textEditorCustom" })
+                <label>Select File (if any) </label>
+                <input type="file" class="form-control" name="fileposted" />
+                <br />
+                <input type="submit" class="btn btn-info" value="Send Reply" />
+            }
+        </div>
+    </div>
+</div>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}

@@ -1,0 +1,168 @@
+﻿@model PureHRMS.tblLeaveMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Manage Leaves";
+}
+
+
+<div class="col-md-4">
+    @using (Html.BeginForm("InsertLeave", "Leave", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "error-class" })
+        <span class="text-danger">Add New Leave Type</span>
+
+        <span class="error-class">@ViewBag.FoundError</span>
+        <br />
+        <label>Leave Name</label>
+        @Html.TextBoxFor(m => m.LeaveName, new { @class = "form-control" })
+        <label>Leave Type</label>
+        @Html.DropDownListFor(m => m.LeveValue,
+       new List<SelectListItem>{
+                    new SelectListItem() {Text = "Full Day", Value="1"},
+                    new SelectListItem() {Text = "Half Day", Value="0.5"} }, new { @class = "form-control" })
+        <br />
+        <input type="submit" class="btn btn-info" value="Add Leave Type" />
+        <br /><br />
+    }
+
+</div>
+<div class="col-md-8">
+    <span class="text-danger">
+        -Please don't delete LEAVE TYPE if have have allowtted leave type to some employee 
+        because it is neccessosy to maintain record of  employees, means who has taken which LEAVE TYPE and on what date.
+        <br />
+        -Please define LEAVE TYPEs early to ensure soomth record maintainance.
+        <br />
+        -Moreover please prefer Editing instead of DELETEing LEAVE TYPEs.
+    </span>
+    <hr />
+    <span class="text-danger">Edit/Delete Leaves</span>
+    <hr />
+    <div class="table-responsive">
+
+
+
+
+
+        @{
+            if (ViewBag.LeaveAll == null || Enumerable.Count(ViewBag.LeaveAll) == 0)
+            {
+                <div class="alert alert-danger">No LEAVE TYPEs Found</div>
+            }
+            else
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name </th>
+                            <th>Day Type </th>
+                            <th># Edit </th>
+                            <th># Delete </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.LeaveAll)
+                        {
+                            <tr>
+                                <td>@item.LId</td>
+                                <td>@item.LeaveName</td>
+                                <td>
+                                    @if(@item.LeveValue=="1")
+                                    {
+                                        <text>Full Day</text>
+                                    }
+
+                                    @if (@item.LeveValue == "0.5")
+                                    {
+                                        <text>Half Day</text>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target="#@item.LId">Edit </a>
+                                    <div class="modal fade" id="@item.LId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                @{
+                                                    List<SelectListItem> listItems = new List<SelectListItem>();
+                                                    listItems.Add(new SelectListItem
+                                                    {
+                                                        Text = "Full Day",
+                                                        Value = "1"
+                                                    });
+                                                    listItems.Add(new SelectListItem
+                                                    {
+                                                        Text = "Half Day",
+                                                        Value = "0.5",
+                                                    });
+
+                                                }
+
+                                                @using (Html.BeginForm("UpdateLeave", "Leave", new { id = item.LId }, FormMethod.Post))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="myModalLabel">
+
+                                                            Update Leave Type
+                                                        </h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <label>Leave Name</label>
+                                                        <input type="text" name="LeaveName" class="form-control" value="@item.LeaveName" />
+                                                        <label>Leave Type</label>
+                                                        
+                                                        @Html.DropDownList("DDLLeaveDay",new SelectList(listItems, "Value", "Text", item.LeveValue),
+                                                       
+       new { @class = "form-control" } )
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success">UPDATE </button>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @using (Html.BeginForm("DeleteLeave", "Leave", new { id = item.LId }, FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete - @item.LeaveName');">Delete </button>
+                                    }
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            }
+
+        }
+
+
+    </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}
+
+
+

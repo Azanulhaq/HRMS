@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> @ViewBag.Title</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/css/bootstrap.min.css")" rel="stylesheet" media="all" />
+    <!-- FONTAWESOME ICONS STYLES-->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <!-- DATEPICKER CSS -->
+    <link href="@Url.Content("~/Content/datepick/jquery-ui.css")" rel="stylesheet" />
+    <!-- TEXTEDITOR CSS -->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/js/summernote/summernote.css")" rel="stylesheet" />
+    <!--CUSTOM STYLES-->
+    <link href="@Url.Content("~/Content/BasicLayout/assets/css/custom-css/green.css")" rel="stylesheet" />
+    <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="@Url.Content("~/Content/BasicLayout/assets/js/jquery-1.11.3.min.js")"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="@Url.Content("~/Content/BasicLayout/assets/js/bootstrap.min.js")"></script>
+    <!-- TEXTEDITOR SCRIPTS -->
+    <script src="@Url.Content("~/Content/BasicLayout/assets/js/summernote/summernote.js")"></script>
+
+</head>
+<body>
+
+    <noscript>
+        <h2 style="color:red;">
+            JavaScript is disabled! Why you want to do so?
+            <br />
+            Please enable JavaScript in your web browser!
+        </h2>
+
+        <style type="text/css">
+            .main-wrapper {
+                display: none;
+            }
+        </style>
+    </noscript>
+    <!-- MAIN WRAPPER START -->
+    <div class="main-wrapper">
+        <!-- INNER WRAPPER START -->
+        <div class="inner-wrapper">
+            <!-- TOP HEADER START -->
+            <div class="top-header">
+                <div class="big-menu">
+                    <a href="/Home/EmployeeDashboard/">Dashboard </a>
+                    <a href="/Basic/PolicyDisplay/">Company Policies </a>
+                    <a href="/Home/EmployeeChangePassword/">Change Password </a>
+                    <a href="/Basic/ContactDisplay/">Common Contacts </a>
+                    <a href="/Docs/DisplayDoc/">Common Documents </a>
+
+                </div>
+                <div class="mobile-menu">
+                    <ul class="small-menu">
+                        <li>
+                            <a href="#">Quick Links <i class="fa  fa-angle-double-down"></i></a>
+                            <ul class="dropdown">
+                                <li><a href="/Home/EmployeeDashboard/">Dashboard </a></li>
+                                <li><a href="/Basic/PolicyDisplay/">Company Policies </a></li>
+                                <li><a href="/Home/EmployeeChangePassword/">Change Password </a></li>
+                                <li><a href="/Basic/ContactDisplay/">Common Contacts </a></li>
+                                <li><a href="/Docs/DisplayDoc/">Common Documents </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu-right">
+                    <a href="/Home/EmployeeLogout/" class="logout"><i class="fa fa-external-link"></i>Logout</a>
+
+                </div>
+
+            </div>
+            <!-- TOP HEADER END -->
+            <!-- HEADER START -->
+            <header>
+                <div class="overlay">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @{
+                                    using (HRMSConn dc = new HRMSConn())
+                                    {
+                                        string LogoImg = dc.tblSettingsMasters.ToList()[0].CompanyLogo;
+
+                                        <text>
+                                <img src="@Url.Content("~/UploadedData/CompanyLogo/"+LogoImg)" class="img-responsive" style="height:80px;" />
+
+                                           
+                                        </text>
+                                    }
+
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+            <!--  HEADER END -->
+            <!-- MAIN MENU START -->
+            <div class="main-menu">
+                <nav class="navbar navbar-default no-radius">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+
+                            </button>
+                            <a class="navbar-brand" href="#">Main Menu</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            @RenderSection("MainSidebar", required: true)
+                            
+
+
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <!-- MAIN MENU END -->
+            <!-- CONTENT START -->
+            <div class="container content-section">
+
+               
+                <!--ROW START-->
+                <div class="row head-line">
+                    <div class="col-md-12">
+                        <h2>@ViewBag.PageHead</h2>
+                    </div>
+                </div>
+                <!--ROW END-->
+                <!--ROW START-->
+                <div class="row">
+                    @RenderBody()
+                </div>
+                <!--ROW END-->
+            </div>
+            <!-- CONTENT END -->
+            <!-- FOOTER HEADER START -->
+            <div class="upper-footer text-center">
+                <div class="overlay">
+                    <span>@{
+                        using (HRMSConn dc = new HRMSConn())
+                        {
+                            string ShortName = dc.tblSettingsMasters.ToList()[0].CompanyShortName;
+
+                            <text>
+                                @ShortName
+                            </text>
+                        }
+
+                    }</span>
+                </div>
+
+            </div>
+            <footer>
+                <div class="container">
+                    <div class="row">
+                        
+                        <div class="col-md-4">
+                            <h4>Browse Quickly </h4>
+                            <ul class="list-unstyled foot-links">
+                                <li><a href="/Home/EmployeeDashboard/">Dashboard </a></li>
+                                <li><a href="/Basic/PolicyDisplay/">Company Policies </a></li>
+                                <li><a href="/Home/EmployeeChangePassword/">Change Password </a></li>
+                                <li><a href="/Basic/ContactDisplay/">Common Contacts </a></li>
+                            </ul>
+
+
+                        </div>
+                        <div class="col-md-3">
+                            <h4>CONTACT  DETAILS </h4>
+                            @{
+                                using (HRMSConn dc = new HRMSConn())
+                                {
+                                    string addressSingle = dc.tblSettingsMasters.ToList()[0].AddressContactDetails;
+
+                                    <text>
+                                        @addressSingle
+                                    </text>
+                                }
+
+                            }
+                        </div>
+                        <div class="col-md-3 col-md-offset-1">
+
+                          
+                           
+                            @{
+                                using (HRMSConn dc = new HRMSConn())
+                                {
+                                    string LogoImg = dc.tblSettingsMasters.ToList()[0].CompanyLogo;
+
+                                    <text>
+                                        <img src="@Url.Content("~/UploadedData/CompanyLogo/"+LogoImg)" class="img-responsive" style="height:80px;" />
+
+
+                                    </text>
+                                }
+
+                            }
+                            <hr class="set-hr" />
+                            <span class="pad-top">
+                                &copy; All Rights Reserved.
+                            </span>
+                        </div>
+                    </div>
+                    <hr class="set-1" />
+                    <div class="row">
+                        <div class="col-md-12">
+                           All rights reserved by <strong>
+    @{
+                               using (HRMSConn dc = new HRMSConn())
+                               {
+                                   string ShortName = dc.tblSettingsMasters.ToList()[0].CompanyShortName;
+
+                                <text>
+                                    @ShortName
+                                </text>
+                               }
+
+                        }
+                    </strong>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- FOOTER HEADER ENDs -->
+        </div>
+        <!-- INNER WRAPPER END -->
+    </div>
+    <!-- SOME SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- DATEPICKER SCRIPTS -->
+    <script src="@Url.Content("~/Content/datepick/jquery-ui.js")"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="@Url.Content("~/Content/BasicLayout/assets/js/custom.js")"></script>
+
+
+</body>
+</html>

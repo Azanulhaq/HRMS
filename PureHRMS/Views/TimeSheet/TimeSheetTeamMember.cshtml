@@ -1,0 +1,88 @@
+﻿@model IEnumerable<PureHRMS.tblTimeSheetManager>
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "See TimeSheet ";
+}
+<div class="col-md-12">
+  
+<div class="row">
+    <div class="col-md-12">
+        <a href="/Employee/EmployeeTeamView/" class="btn btn-sm btn-danger">Go Back</a>
+        <hr />
+        <span class="text-danger">Timesheet of the employee mentioned below.</span>
+        <hr />
+     
+        <h5>   Employee Identifier: <strong>@ViewBag.Identifier</strong>  </h5>
+        <h5>   Employee ID: <strong>@ViewBag.EmployeeID</strong>  </h5>
+        <h5>   Employee Name: <strong>@ViewBag.EmployeeName</strong>  </h5>
+        <hr />
+
+
+    </div>
+</div>
+<div class="row">
+   
+        <div class="col-md-12">
+            <span class="text-danger">Below timesheet displays the number of work done per day , so it may repeat the date if employee worked more than one project on the same date.</span>
+            <hr />
+            <div class="table-responsive">
+
+                @{
+            var grid = new WebGrid(Model, canPage: true, rowsPerPage:100);
+                }
+
+                @if (grid.Rows.Count > 0)
+        {
+
+        @grid.GetHtml(
+    htmlAttributes: new { @class = "table table-bordered" },
+    columns: (
+    grid.Columns(
+        grid.Column("TimeId", "ID"),
+        grid.Column("Date", format:@<text>
+            @item.TimeDate.ToShortDateString()
+        </text>),
+         grid.Column("Project Title",format:@<text>
+
+            @{
+            using (HRMSConn dc = new HRMSConn())
+            {
+                int pid = Convert.ToInt32(item.refTimeProjectId);
+                var getTitle = dc.tblProjectMasters.Where(x => x.ProjectId == pid).SingleOrDefault();
+        <text>  @getTitle.ProjectTitle </text>
+            }
+            }
+        </text>
+
+         ),
+          grid.Column("TimeHours", "Hours Worked"),
+          grid.Column("Comments", "Comments/Notes"),
+             grid.Column("Added", format:@<text>
+            @item.CreatedOn.ToShortDateString()
+            </text>)
+
+
+        )
+    )
+    );
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <i>No Data Found</i>
+        </div>
+        }
+            </div>
+        </div>
+ 
+</div>
+</div>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}

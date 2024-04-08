@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="col-md-4">
+   
+    @using (Html.BeginForm("SecureUserLogin", "Login",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+ <span class="error-class">@ViewBag.FoundError</span>  
+    <br>
+    <label>Enter Email ID : </label>
+    <input type="text" name="userName" class="form-control">
+    <label>Enter Password :  </label>
+    <input type="password" name="userPassword" class="form-control">
+    <br />
+    <input type="submit" class="btn btn-info" value="Clcik Here To Login" />
+  
+    }
+    <br /><br />
+</div>
+<div class="col-md-6 col-md-offset-1">
+    <br /><br />
+    <div class="alert alert-info">
+        <br />
+   <h4>Important Instructions :</h4>
+        <ul>
+            <li>Please note that the Date Format is <strong>Month/Day/Year</strong> </li>
+            <li>Please keep your password safe and don't tell password to anyone.</li>
+        </ul>
+        <br />
+    </div>
+   
+</div>
+

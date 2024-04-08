@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblAttendanceMaster">
+    <Key>
+      <PropertyRef Name="AId" />
+    </Key>
+    <Property Name="AId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="refEuid" Type="int" />
+    <Property Name="AttendanceDate" Type="date" />
+    <Property Name="ClockIn" Type="time" Precision="3" />
+    <Property Name="ClockOut" Type="time" Precision="3" />
+    <Property Name="AttandanceCode" Type="varchar" MaxLength="20" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="UpdatedOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tblCommonContacts">
+    <Key>
+      <PropertyRef Name="ContactId" />
+    </Key>
+    <Property Name="ContactId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ContactText" Type="varchar(max)" />
+    <Property Name="LastUpdated" Type="date" />
+    <Property Name="UpdatedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tblDepartmentMaster">
+    <Key>
+      <PropertyRef Name="DepartmentId" />
+    </Key>
+    <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepartmentName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblDesignationMaster">
+    <Key>
+      <PropertyRef Name="DesignationId" />
+    </Key>
+    <Property Name="DesignationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DesignationName" Type="varchar" MaxLength="50" />
+    <Property Name="RefDepartmentId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblLeaveApplicationTrack">
+    <Key>
+      <PropertyRef Name="BLId" />
+    </Key>
+    <Property Name="BLId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="refEuid" Type="int" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="NoOfDays" Type="decimal" Precision="18" Scale="1" />
+    <Property Name="ApplicantNotes" Type="varchar" MaxLength="500" />
+    <Property Name="ApprovedNotes" Type="varchar" MaxLength="500" />
+    <Property Name="ApproveStatus" Type="bit" />
+  </EntityType>
+  <EntityType Name="tblLeaveBalance">
+    <Key>
+      <PropertyRef Name="LBId" />
+    </Key>
+    <Property Name="LBId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="refEmpUid" Type="int" />
+    <Property Name="refLeaveID" Type="int" />
+    <Property Name="LeaveBalance" Type="decimal" Precision="18" Scale="1" />
+  </EntityType>
+  <EntityType Name="tblLeaveMaster">
+    <Key>
+      <PropertyRef Name="LId" />
+    </Key>
+    <Property Name="LId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LeaveName" Type="varchar" MaxLength="50" />
+    <Property Name="LeveValue" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="tblMenuMaster">
+    <Key>
+      <PropertyRef Name="MenuId" />
+    </Key>
+    <Property Name="MenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MenuName" Type="varchar" MaxLength="50" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="LinkPath" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="tblMenuRelatedActions">
+    <Key>
+      <PropertyRef Name="MenuRelatedActionsId" />
+    </Key>
+    <Property Name="MenuRelatedActionsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ActionName" Type="varchar" MaxLength="100" />
+    <Property Name="ControllerName" Type="varchar" MaxLength="100" />
+    <Property Name="refMenuId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblMonthySal">
+    <Key>
+      <PropertyRef Name="MSId" />
+    </Key>
+    <Property Name="MSId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="refEid" Type="int" />
+    <Property Name="NetSalAmt" Type="int" />
+    <Property Name="WorkingDays" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="DaysWorked" Type="decimal" Precision="18" Scale="1" />
+    <Property Name="NetPaySalAmt" Type="int" />
+    <Property Name="MoreDeduction" Type="int" />
+    <Property Name="MoreDeductionNotes" Type="varchar" MaxLength="500" />
+    <Property Name="MoreAddition" Type="int" />
+    <Property Name="MoreAdditionNotes" Type="varchar" MaxLength="500" />
+    <Property Name="FinalSalAmt" Type="int" />
+    <Property Name="ForMonth" Type="int" />
+    <Property Name="ForYear" Type="int" />
+    <Property Name="CreadtedOn" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="BasicSal" Type="int" />
+    <Property Name="HRA" Type="int" />
+    <Property Name="SpecialAllowance" Type="int" />
+    <Property Name="ConveyanceAllowance" Type="int" />
+    <Property Name="MealAllowance" Type="int" />
+    <Property Name="TelephoneAllowance" Type="int" />
+    <Property Name="OtherAllowance" Type="int" />
+    <Property Name="OtherAllowanceNotes" Type="varchar" MaxLength="200" />
+    <Property Name="PF" Type="int" />
+    <Property Name="IncomeTax" Type="int" />
+    <Property Name="OtherDeduction" Type="int" />
+    <Property Name="OtherDeductionNotes" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tblNoticeMaster">
+    <Key>
+      <PropertyRef Name="NoticeId" />
+    </Key>
+    <Property Name="NoticeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NoticeTitle" Type="varchar" MaxLength="500" />
+    <Property Name="NoticeDescription" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="tblPermissionMaster">
+    <Key>
+      <PropertyRef Name="PermissionId" />
+    </Key>
+    <Property Name="PermissionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="refUserId" Type="int" />
+    <Property Name="refMenuId" Type="int" />
+    <Property Name="refMenuParentID" Type="int" />
+    <Property Name="Allowed" Type="bit" />
+  </EntityType>
+  <EntityType Name="tblPolicyMaster">
+    <Key>
+      <PropertyRef Name="PolicyId" />
+    </Key>
+    <Property Name="PolicyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PolicyText" Type="varchar(max)" />
+    <Property Name="LastModified" Type="date" />
+    <Property Name="ModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tblProjectAllotted">
+    <Key>
+      <PropertyRef Name="AllottedId" />
+    </Key>
+    <Property Name="AllottedId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="refEmployeeId" Type="int" />
+    <Property Name="refProjectId" Type="int" />
+    <Property Name="AllowedHours" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PerHourRate" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="tblProjectMaster">
+    <Key>
+      <PropertyRef Name="ProjectId" />
+    </Key>
+    <Property Name="ProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EstEndDate" Type="date" />
+    <Property Name="ActEndDate" Type="date" />
+    <Property Name="ProjectStatus" Type="varchar" MaxLength="50" />
+    <Property Name="ProjectTitle" Type="varchar" MaxLength="1000" />
+    <Property Name="ProjectNotes" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="date" />
+    <Property Name="Createdby" Type="int" />
+  </EntityType>
+  <EntityType Name="tblSalaryMaster">
+    <Key>
+      <PropertyRef Name="SId" />
+    </Key>
+    <Property Name="SId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="refEID" Type="int" />
+    <Property Name="BasicSalary" Type="int" />
+    <Property Name="HRA" Type="int" />
+    <Property Name="SpecialAllowance" Type="int" />
+    <Property Name="ConveyanceAllowance" Type="int" />
+    <Property Name="MealAllowance" Type="int" />
+    <Property Name="TelephoneAllowance" Type="int" />
+    <Property Name="OtherAllowance" Type="int" />
+    <Property Name="OtherAllowanceNotes" Type="varchar" MaxLength="200" />
+    <Property Name="PF" Type="int" />
+    <Property Name="IncomeTax" Type="int" />
+    <Property Name="OtherDeduction" Type="int" />
+    <Property Name="OtherDeductionNotes" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tblSupportAdminManager">
+    <Key>
+      <PropertyRef Name="SMId" />
+    </Key>
+    <Property Name="SMId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="refDepartmentId" Type="int" />
+    <Property Name="refEmployeeId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblSupportTickedMaster">
+    <Key>
+      <PropertyRef Name="Tid" />
+    </Key>
+    <Property Name="Tid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TSubject" Type="varchar" MaxLength="200" />
+    <Property Name="TDeptid" Type="int" />
+    <Property Name="TStatus" Type="varchar" MaxLength="20" />
+    <Property Name="UserInvolved" Type="int" />
+  </EntityType>
+  <EntityType Name="tblTaskMaster">
+    <Key>
+      <PropertyRef Name="TaskId" />
+    </Key>
+    <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AssignTo" Type="int" />
+    <Property Name="AssignBy" Type="int" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="Details" Type="varchar(max)" />
+    <Property Name="FinishNotes" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tblTeamMaster">
+    <Key>
+      <PropertyRef Name="TeamId" />
+    </Key>
+    <Property Name="TeamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TeamUsers" Type="int" />
+    <Property Name="TeamParentUser" Type="int" />
+  </EntityType>
+  <EntityType Name="tblTicketRef">
+    <Key>
+      <PropertyRef Name="STId" />
+    </Key>
+    <Property Name="STId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="refTId" Type="int" />
+    <Property Name="TText" Type="varchar(max)" />
+    <Property Name="TFile" Type="varchar" MaxLength="200" />
+    <Property Name="TDate" Type="date" />
+    <Property Name="UserInvolved" Type="int" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="AdminRead" Type="bit" />
+    <Property Name="UserRead" Type="bit" />
+  </EntityType>
+  <EntityType Name="tblTimeSheetManager">
+    <Key>
+      <PropertyRef Name="TimeId" />
+    </Key>
+    <Property Name="TimeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeDate" Type="date" />
+    <Property Name="TimeHours" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Comments" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="date" />
+    <Property Name="refTimeEmpId" Type="int" />
+    <Property Name="refTimeProjectId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblUserMaster">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FullName" Type="varchar" MaxLength="250" />
+    <Property Name="EmailId" Type="varchar" MaxLength="250" />
+    <Property Name="DesignationId" Type="int" />
+    <Property Name="DepartmentId" Type="int" />
+    <Property Name="ImagePath" Type="varchar" MaxLength="500" />
+    <Property Name="HighestQualification" Type="varchar" MaxLength="100" />
+    <Property Name="SecondHighestQualification" Type="varchar" MaxLength="100" />
+    <Property Name="OtherDetails" Type="varchar(max)" />
+    <Property Name="UserPassword" Type="varchar(max)" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="UserType" Type="varchar" MaxLength="50" />
+    <Property Name="Dob" Type="date" />
+    <Property Name="EmpId" Type="varchar" MaxLength="50" />
+    <Property Name="IsWebMaster" Type="bit" />
+  </EntityType>
+  <Association Name="FK_tblAttendanceMaster_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblAttendanceMaster" Type="Self.tblAttendanceMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblAttendanceMaster">
+        <PropertyRef Name="refEuid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblDesignationMaster_tblDepartmentMaster">
+    <End Role="tblDepartmentMaster" Type="Self.tblDepartmentMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblDesignationMaster" Type="Self.tblDesignationMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblDepartmentMaster">
+        <PropertyRef Name="DepartmentId" />
+      </Principal>
+      <Dependent Role="tblDesignationMaster">
+        <PropertyRef Name="RefDepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblLeaveApplicationTrack_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblLeaveApplicationTrack" Type="Self.tblLeaveApplicationTrack" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblLeaveApplicationTrack">
+        <PropertyRef Name="refEuid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblLeaveBalance_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblLeaveBalance" Type="Self.tblLeaveBalance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblLeaveBalance">
+        <PropertyRef Name="refEmpUid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblMonthySal_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblMonthySal" Type="Self.tblMonthySal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblMonthySal">
+        <PropertyRef Name="refEid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPermissionMaster_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblPermissionMaster" Type="Self.tblPermissionMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblPermissionMaster">
+        <PropertyRef Name="refUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblProjectAllotted_tblProjectMaster">
+    <End Role="tblProjectMaster" Type="Self.tblProjectMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblProjectAllotted" Type="Self.tblProjectAllotted" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblProjectMaster">
+        <PropertyRef Name="ProjectId" />
+      </Principal>
+      <Dependent Role="tblProjectAllotted">
+        <PropertyRef Name="refProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblSalaryMaster_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblSalaryMaster" Type="Self.tblSalaryMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblSalaryMaster">
+        <PropertyRef Name="refEID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblSupportAdminManager_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblSupportAdminManager" Type="Self.tblSupportAdminManager" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblSupportAdminManager">
+        <PropertyRef Name="refEmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblSupportTickedMaster_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblSupportTickedMaster" Type="Self.tblSupportTickedMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblSupportTickedMaster">
+        <PropertyRef Name="UserInvolved" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblTaskMaster_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblTaskMaster" Type="Self.tblTaskMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblTaskMaster">
+        <PropertyRef Name="AssignTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblTeamMaster_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblTeamMaster" Type="Self.tblTeamMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblTeamMaster">
+        <PropertyRef Name="TeamParentUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblTicketRef_tblSupportTickedMaster">
+    <End Role="tblSupportTickedMaster" Type="Self.tblSupportTickedMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblTicketRef" Type="Self.tblTicketRef" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblSupportTickedMaster">
+        <PropertyRef Name="Tid" />
+      </Principal>
+      <Dependent Role="tblTicketRef">
+        <PropertyRef Name="refTId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblTimeSheetManager_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblTimeSheetManager" Type="Self.tblTimeSheetManager" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblTimeSheetManager">
+        <PropertyRef Name="refTimeEmpId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PMSModelStoreContainer">
+    <EntitySet Name="tblAttendanceMaster" EntityType="Self.tblAttendanceMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblCommonContacts" EntityType="Self.tblCommonContacts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblDepartmentMaster" EntityType="Self.tblDepartmentMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblDesignationMaster" EntityType="Self.tblDesignationMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblLeaveApplicationTrack" EntityType="Self.tblLeaveApplicationTrack" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblLeaveBalance" EntityType="Self.tblLeaveBalance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblLeaveMaster" EntityType="Self.tblLeaveMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblMenuMaster" EntityType="Self.tblMenuMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblMenuRelatedActions" EntityType="Self.tblMenuRelatedActions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblMonthySal" EntityType="Self.tblMonthySal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblNoticeMaster" EntityType="Self.tblNoticeMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPermissionMaster" EntityType="Self.tblPermissionMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPolicyMaster" EntityType="Self.tblPolicyMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblProjectAllotted" EntityType="Self.tblProjectAllotted" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblProjectMaster" EntityType="Self.tblProjectMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblSalaryMaster" EntityType="Self.tblSalaryMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblSupportAdminManager" EntityType="Self.tblSupportAdminManager" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblSupportTickedMaster" EntityType="Self.tblSupportTickedMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblTaskMaster" EntityType="Self.tblTaskMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblTeamMaster" EntityType="Self.tblTeamMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblTicketRef" EntityType="Self.tblTicketRef" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblTimeSheetManager" EntityType="Self.tblTimeSheetManager" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUserMaster" EntityType="Self.tblUserMaster" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tblAttendanceMaster_tblUserMaster" Association="Self.FK_tblAttendanceMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblAttendanceMaster" EntitySet="tblAttendanceMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblDesignationMaster_tblDepartmentMaster" Association="Self.FK_tblDesignationMaster_tblDepartmentMaster">
+      <End Role="tblDepartmentMaster" EntitySet="tblDepartmentMaster" />
+      <End Role="tblDesignationMaster" EntitySet="tblDesignationMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblLeaveApplicationTrack_tblUserMaster" Association="Self.FK_tblLeaveApplicationTrack_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblLeaveApplicationTrack" EntitySet="tblLeaveApplicationTrack" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblLeaveBalance_tblUserMaster" Association="Self.FK_tblLeaveBalance_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblLeaveBalance" EntitySet="tblLeaveBalance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblMonthySal_tblUserMaster" Association="Self.FK_tblMonthySal_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblMonthySal" EntitySet="tblMonthySal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPermissionMaster_tblUserMaster" Association="Self.FK_tblPermissionMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblPermissionMaster" EntitySet="tblPermissionMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblProjectAllotted_tblProjectMaster" Association="Self.FK_tblProjectAllotted_tblProjectMaster">
+      <End Role="tblProjectMaster" EntitySet="tblProjectMaster" />
+      <End Role="tblProjectAllotted" EntitySet="tblProjectAllotted" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblSalaryMaster_tblUserMaster" Association="Self.FK_tblSalaryMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblSalaryMaster" EntitySet="tblSalaryMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblSupportAdminManager_tblUserMaster" Association="Self.FK_tblSupportAdminManager_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblSupportAdminManager" EntitySet="tblSupportAdminManager" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblSupportTickedMaster_tblUserMaster" Association="Self.FK_tblSupportTickedMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblSupportTickedMaster" EntitySet="tblSupportTickedMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblTaskMaster_tblUserMaster" Association="Self.FK_tblTaskMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblTaskMaster" EntitySet="tblTaskMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblTeamMaster_tblUserMaster" Association="Self.FK_tblTeamMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblTeamMaster" EntitySet="tblTeamMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblTicketRef_tblSupportTickedMaster" Association="Self.FK_tblTicketRef_tblSupportTickedMaster">
+      <End Role="tblSupportTickedMaster" EntitySet="tblSupportTickedMaster" />
+      <End Role="tblTicketRef" EntitySet="tblTicketRef" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblTimeSheetManager_tblUserMaster" Association="Self.FK_tblTimeSheetManager_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMaster" />
+      <End Role="tblTimeSheetManager" EntitySet="tblTimeSheetManager" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

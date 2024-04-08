@@ -1,0 +1,120 @@
+﻿@model PureHRMS.tblDepartmentMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Manage Departments";
+}
+
+<div class="col-md-4">
+    @using (Html.BeginForm("InsertDepartment", "Departments", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "error-class" })
+        <span class="text-danger">Add New Department</span>
+     
+        <span class="error-class">@ViewBag.FoundError</span>
+        <br />
+        <label>Department Name</label>
+        @Html.TextBoxFor(m => m.DepartmentName, new { @class = "form-control" })
+        <br />
+        <input type="submit" class="btn btn-info" value="Add Department" />
+        <br /><br />
+    }
+
+</div>
+<div class="col-md-8">
+    <span class="text-danger">
+         Please don't delete DEPARTMENT if you have assigned that department to any employee. If you want to delete department , please delete EMPLOYEES of that department ( or assign some other department to employees ) first.
+    </span>
+    <hr />
+    <span class="text-danger">Edit/Delete Departments</span>
+    <hr />
+    <div class="table-responsive">
+
+
+
+
+
+        @{
+            if (ViewBag.DepartmentList == null || Enumerable.Count(ViewBag.DepartmentList) == 0)
+            {
+                <div class="alert alert-danger">No Departments Found</div>
+            }
+            else
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Dept. ID</th>
+                            <th>Department Name </th>
+                            <th># Edit </th>
+                            <th># Delete </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.DepartmentList)
+                        {
+                        <tr>
+                            <td>@item.DepartmentId</td>
+                            <td>@item.DepartmentName</td>
+                            <td>
+                                <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target="#@item.DepartmentId">Edit </a>
+                                <div class="modal fade" id="@item.DepartmentId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            @using (Html.BeginForm("UpdateDepartment", "Departments", new { id = item.DepartmentId }, FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="myModalLabel">
+
+                                                        Update Department
+                                                    </h4>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <input type="text" name="deptname" class="form-control" value="@item.DepartmentName" />
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-success">UPDATE </button>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("DeleteDepartment", "Departments", new { id = item.DepartmentId }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete - @item.DepartmentName');">Delete </button>
+                                }
+                            </td>
+                        </tr>
+
+                        }
+                    </tbody>
+                </table>
+            }
+
+        }
+
+
+    </div>
+
+
+
+
+
+
+
+</div>
+
+    @section MainSidebar {
+
+        @Html.Partial("_MenuPartial");
+
+    }
+

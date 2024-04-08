@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Notice Management";
+}
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <style>
+                .note-codable {
+                    display: none;
+                }
+            </style>
+            <span class="text-danger">
+                Add new notice for employees.
+            </span>
+            <hr />
+            @using (Html.BeginForm("EmployeeNoticesInsert", "Basic", FormMethod.Post))
+            {  @Html.AntiForgeryToken()
+                <span class="error-class">@ViewBag.FoundError</span>
+                <br>
+                <label>Title : </label>
+                <input type="text" name="noticetilte" class="form-control">
+                <label>Description (Only Text):  </label>
+                <textarea class="form-control" name="noticeDescp" rows="8"></textarea>
+                <br />
+                <input type="submit" class="btn btn-info" value="Add Notice" />
+                <br /><br />
+            }
+
+        </div>
+        <div class="col-md-6">
+        
+            <h4> <strong> EDIT / DELETE NOTICES : </strong></h4>
+            <hr />
+            <span class="text-danger">
+                Newly added notice will appear below.
+            </span>
+            <hr />
+            <div class="table-responsive">
+
+                @{
+                    if (ViewBag.Mylists == null || Enumerable.Count(ViewBag.Mylists) == 0)
+                    {
+                        <div class="alert alert-danger">No Notices Found</div>
+                    }
+                    else
+                    {
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#ID</th>
+                                    <th>Title</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in ViewBag.Mylists)
+                                {
+                                    <tr>
+                                        <th scope="row">@item.NoticeId</th>
+                                        <td>@item.NoticeTitle</td>
+                                        <td>
+                                            <a href="#" class="btn btn-success btn-xs" data-toggle="modal" data-target="#@item.NoticeId">Edit</a>
+
+                                            <div class="modal fade" id="@item.NoticeId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        @using (Html.BeginForm("EmployeeNoticesUpdate", "Basic", new { id = item.NoticeId }, FormMethod.Post))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+
+                                                            <div class="modal-body">
+                                                                <h4 class="modal-title" id="myModalLabel">
+                                                                    <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal">Close</button>
+                                                                    <br />
+                                                                    <label>Title</label>
+                                                                    <input type="text" name="noticetilteEdit" class="form-control" value="@item.NoticeTitle">
+                                                                </h4>
+                                                                <label>
+                                                                    Description (Only Text):
+                                                                </label>
+                                                                <textarea class="form-control" name="noticeDescpEdit" rows="8">@item.NoticeDescription</textarea>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-success">UPDATE NOTICE</button>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            @using (Html.BeginForm("EmployeeNoticesDelete", "Basic", new { id = item.NoticeId }, FormMethod.Post))
+                                            {  @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete - @item.NoticeTitle');"> Delete</button>
+                                            }
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+
+
+
+                }
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+@section MainSidebar {
+   
+        @Html.Partial("_MenuPartial");
+
+  
+}

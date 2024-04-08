@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tblDepartmentMaster">
+    <Key>
+      <PropertyRef Name="DepartmentId" />
+    </Key>
+    <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblDesignationMasters" Relationship="Self.FK_tblDesignationMaster_tblDepartmentMaster" FromRole="tblDepartmentMaster" ToRole="tblDesignationMaster" />
+  </EntityType>
+  <EntityType Name="tblDesignationMaster">
+    <Key>
+      <PropertyRef Name="DesignationId" />
+    </Key>
+    <Property Name="DesignationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DesignationName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="RefDepartmentId" Type="Int32" />
+    <NavigationProperty Name="tblDepartmentMaster" Relationship="Self.FK_tblDesignationMaster_tblDepartmentMaster" FromRole="tblDesignationMaster" ToRole="tblDepartmentMaster" />
+  </EntityType>
+  <EntityType Name="tblMenuMaster">
+    <Key>
+      <PropertyRef Name="MenuId" />
+    </Key>
+    <Property Name="MenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MenuName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="LinkPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblMenuRelatedAction">
+    <Key>
+      <PropertyRef Name="MenuRelatedActionsId" />
+    </Key>
+    <Property Name="MenuRelatedActionsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ActionName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ControllerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="refMenuId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblPermissionMaster">
+    <Key>
+      <PropertyRef Name="PermissionId" />
+    </Key>
+    <Property Name="PermissionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="refUserId" Type="Int32" />
+    <Property Name="refMenuId" Type="Int32" />
+    <NavigationProperty Name="tblUserMaster" Relationship="Self.FK_tblPermissionMaster_tblUserMaster" FromRole="tblPermissionMaster" ToRole="tblUserMaster" />
+    <Property Name="refMenuParentID" Type="Int32" />
+    <Property Name="Allowed" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tblTeamMaster">
+    <Key>
+      <PropertyRef Name="TeamId" />
+    </Key>
+    <Property Name="TeamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TeamUsers" Type="Int32" />
+    <Property Name="TeamParentUser" Type="Int32" />
+    <NavigationProperty Name="tblUserMaster" Relationship="Self.FK_tblTeamMaster_tblUserMaster" FromRole="tblTeamMaster" ToRole="tblUserMaster" />
+  </EntityType>
+  <EntityType Name="tblUserMaster">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="EmailId" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="DesignationId" Type="Int32" />
+    <Property Name="DepartmentId" Type="Int32" />
+    <Property Name="ImagePath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="HighestQualification" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SecondHighestQualification" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="OtherDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblPermissionMasters" Relationship="Self.FK_tblPermissionMaster_tblUserMaster" FromRole="tblUserMaster" ToRole="tblPermissionMaster" />
+    <NavigationProperty Name="tblTeamMasters" Relationship="Self.FK_tblTeamMaster_tblUserMaster" FromRole="tblUserMaster" ToRole="tblTeamMaster" />
+    <Property Name="Dob" Type="DateTime" Precision="0" />
+    <Property Name="EmpId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblTaskMasters" Relationship="PMSModel.FK_tblTaskMaster_tblUserMaster" FromRole="tblUserMaster" ToRole="tblTaskMaster" />
+    <NavigationProperty Name="tblTimeSheetManagers" Relationship="PMSModel.FK_tblTimeSheetManager_tblUserMaster" FromRole="tblUserMaster" ToRole="tblTimeSheetManager" />
+    <Property Name="IsWebMaster" Type="Boolean" />
+    <NavigationProperty Name="tblSupportTickedMasters" Relationship="PMSModel.FK_tblSupportTickedMaster_tblUserMaster" FromRole="tblUserMaster" ToRole="tblSupportTickedMaster" />
+    <NavigationProperty Name="tblSupportAdminManagers" Relationship="PMSModel.FK_tblSupportAdminManager_tblUserMaster" FromRole="tblUserMaster" ToRole="tblSupportAdminManager" />
+    <NavigationProperty Name="tblLeaveBalances" Relationship="PMSModel.FK_tblLeaveBalance_tblUserMaster" FromRole="tblUserMaster" ToRole="tblLeaveBalance" />
+    <NavigationProperty Name="tblAttendanceMasters" Relationship="PMSModel.FK_tblAttendanceMaster_tblUserMaster" FromRole="tblUserMaster" ToRole="tblAttendanceMaster" />
+    <NavigationProperty Name="tblLeaveApplicationTracks" Relationship="PMSModel.FK_tblLeaveApplicationTrack_tblUserMaster" FromRole="tblUserMaster" ToRole="tblLeaveApplicationTrack" />
+    <NavigationProperty Name="tblSalaryMasters" Relationship="PMSModel.FK_tblSalaryMaster_tblUserMaster" FromRole="tblUserMaster" ToRole="tblSalaryMaster" />
+    <NavigationProperty Name="tblMonthySals" Relationship="PMSModel.FK_tblMonthySal_tblUserMaster" FromRole="tblUserMaster" ToRole="tblMonthySal" />
+  </EntityType>
+  <Association Name="FK_tblDesignationMaster_tblDepartmentMaster">
+    <End Role="tblDepartmentMaster" Type="Self.tblDepartmentMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblDesignationMaster" Type="Self.tblDesignationMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblDepartmentMaster">
+        <PropertyRef Name="DepartmentId" />
+      </Principal>
+      <Dependent Role="tblDesignationMaster">
+        <PropertyRef Name="RefDepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPermissionMaster_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblPermissionMaster" Type="Self.tblPermissionMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblPermissionMaster">
+        <PropertyRef Name="refUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblTeamMaster_tblUserMaster">
+    <End Role="tblUserMaster" Type="Self.tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblTeamMaster" Type="Self.tblTeamMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblTeamMaster">
+        <PropertyRef Name="TeamParentUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HRMSConn" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblDepartmentMasters" EntityType="Self.tblDepartmentMaster" />
+    <EntitySet Name="tblDesignationMasters" EntityType="Self.tblDesignationMaster" />
+    <EntitySet Name="tblMenuMasters" EntityType="Self.tblMenuMaster" />
+    <EntitySet Name="tblMenuRelatedActions" EntityType="Self.tblMenuRelatedAction" />
+    <EntitySet Name="tblPermissionMasters" EntityType="Self.tblPermissionMaster" />
+    <EntitySet Name="tblTeamMasters" EntityType="Self.tblTeamMaster" />
+    <EntitySet Name="tblUserMasters" EntityType="Self.tblUserMaster" />
+    <AssociationSet Name="FK_tblDesignationMaster_tblDepartmentMaster" Association="Self.FK_tblDesignationMaster_tblDepartmentMaster">
+      <End Role="tblDepartmentMaster" EntitySet="tblDepartmentMasters" />
+      <End Role="tblDesignationMaster" EntitySet="tblDesignationMasters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPermissionMaster_tblUserMaster" Association="Self.FK_tblPermissionMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblPermissionMaster" EntitySet="tblPermissionMasters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblTeamMaster_tblUserMaster" Association="Self.FK_tblTeamMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblTeamMaster" EntitySet="tblTeamMasters" />
+    </AssociationSet>
+    <EntitySet Name="tblNoticeMasters" EntityType="PMSModel.tblNoticeMaster" />
+    <EntitySet Name="tblTaskMasters" EntityType="PMSModel.tblTaskMaster" />
+    <AssociationSet Name="FK_tblTaskMaster_tblUserMaster" Association="PMSModel.FK_tblTaskMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblTaskMaster" EntitySet="tblTaskMasters" />
+    </AssociationSet>
+    <EntitySet Name="tblProjectMasters" EntityType="PMSModel.tblProjectMaster" />
+    <EntitySet Name="tblProjectAllotteds" EntityType="PMSModel.tblProjectAllotted" />
+    <AssociationSet Name="FK_tblProjectAllotted_tblProjectMaster" Association="PMSModel.FK_tblProjectAllotted_tblProjectMaster">
+      <End Role="tblProjectMaster" EntitySet="tblProjectMasters" />
+      <End Role="tblProjectAllotted" EntitySet="tblProjectAllotteds" />
+    </AssociationSet>
+    <EntitySet Name="tblTimeSheetManagers" EntityType="PMSModel.tblTimeSheetManager" />
+    <AssociationSet Name="FK_tblTimeSheetManager_tblUserMaster" Association="PMSModel.FK_tblTimeSheetManager_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblTimeSheetManager" EntitySet="tblTimeSheetManagers" />
+    </AssociationSet>
+    <EntitySet Name="tblPolicyMasters" EntityType="PMSModel.tblPolicyMaster" />
+    <EntitySet Name="tblCommonContacts" EntityType="PMSModel.tblCommonContact" />
+    <EntitySet Name="tblSupportTickedMasters" EntityType="PMSModel.tblSupportTickedMaster" />
+    <EntitySet Name="tblTicketRefs" EntityType="PMSModel.tblTicketRef" />
+    <AssociationSet Name="FK_tblSupportTickedMaster_tblUserMaster" Association="PMSModel.FK_tblSupportTickedMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblSupportTickedMaster" EntitySet="tblSupportTickedMasters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblTicketRef_tblSupportTickedMaster" Association="PMSModel.FK_tblTicketRef_tblSupportTickedMaster">
+      <End Role="tblSupportTickedMaster" EntitySet="tblSupportTickedMasters" />
+      <End Role="tblTicketRef" EntitySet="tblTicketRefs" />
+    </AssociationSet>
+    <EntitySet Name="tblSupportAdminManagers" EntityType="PMSModel.tblSupportAdminManager" />
+    <AssociationSet Name="FK_tblSupportAdminManager_tblUserMaster" Association="PMSModel.FK_tblSupportAdminManager_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblSupportAdminManager" EntitySet="tblSupportAdminManagers" />
+    </AssociationSet>
+    <EntitySet Name="tblLeaveMasters" EntityType="PMSModel.tblLeaveMaster" />
+    <EntitySet Name="tblLeaveBalances" EntityType="PMSModel.tblLeaveBalance" />
+    <AssociationSet Name="FK_tblLeaveBalance_tblUserMaster" Association="PMSModel.FK_tblLeaveBalance_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblLeaveBalance" EntitySet="tblLeaveBalances" />
+    </AssociationSet>
+    <EntitySet Name="tblAttendanceMasters" EntityType="PMSModel.tblAttendanceMaster" />
+    <AssociationSet Name="FK_tblAttendanceMaster_tblUserMaster" Association="PMSModel.FK_tblAttendanceMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblAttendanceMaster" EntitySet="tblAttendanceMasters" />
+    </AssociationSet>
+    <EntitySet Name="tblLeaveApplicationTracks" EntityType="PMSModel.tblLeaveApplicationTrack" />
+    <AssociationSet Name="FK_tblLeaveApplicationTrack_tblUserMaster" Association="PMSModel.FK_tblLeaveApplicationTrack_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblLeaveApplicationTrack" EntitySet="tblLeaveApplicationTracks" />
+    </AssociationSet>
+    <EntitySet Name="tblSalaryMasters" EntityType="PMSModel.tblSalaryMaster" />
+    <AssociationSet Name="FK_tblSalaryMaster_tblUserMaster" Association="PMSModel.FK_tblSalaryMaster_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblSalaryMaster" EntitySet="tblSalaryMasters" />
+    </AssociationSet>
+    <EntitySet Name="tblMonthySals" EntityType="PMSModel.tblMonthySal" />
+    <AssociationSet Name="FK_tblMonthySal_tblUserMaster" Association="PMSModel.FK_tblMonthySal_tblUserMaster">
+      <End Role="tblUserMaster" EntitySet="tblUserMasters" />
+      <End Role="tblMonthySal" EntitySet="tblMonthySals" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tblNoticeMaster">
+    <Key>
+      <PropertyRef Name="NoticeId" />
+    </Key>
+    <Property Name="NoticeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NoticeTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="NoticeDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblTaskMaster">
+    <Key>
+      <PropertyRef Name="TaskId" />
+    </Key>
+    <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AssignTo" Type="Int32" />
+    <Property Name="AssignBy" Type="Int32" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="EndDate" Type="DateTime" Precision="0" />
+    <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="FinishNotes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblUserMaster" Relationship="PMSModel.FK_tblTaskMaster_tblUserMaster" FromRole="tblTaskMaster" ToRole="tblUserMaster" />
+  </EntityType>
+  <Association Name="FK_tblTaskMaster_tblUserMaster">
+    <End Type="PMSModel.tblUserMaster" Role="tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PMSModel.tblTaskMaster" Role="tblTaskMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblTaskMaster">
+        <PropertyRef Name="AssignTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblProjectMaster">
+    <Key>
+      <PropertyRef Name="ProjectId" />
+    </Key>
+    <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="EstEndDate" Type="DateTime" Precision="0" />
+    <Property Name="ActEndDate" Type="DateTime" Precision="0" />
+    <Property Name="ProjectStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ProjectTitle" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="ProjectNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="0" />
+    <Property Name="Createdby" Type="Int32" />
+    <NavigationProperty Name="tblProjectAllotteds" Relationship="PMSModel.FK_tblProjectAllotted_tblProjectMaster" FromRole="tblProjectMaster" ToRole="tblProjectAllotted" />
+  </EntityType>
+  <EntityType Name="tblProjectAllotted">
+    <Key>
+      <PropertyRef Name="AllottedId" />
+    </Key>
+    <Property Name="AllottedId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="refEmployeeId" Type="Int32" />
+    <Property Name="refProjectId" Type="Int32" />
+    <Property Name="AllowedHours" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PerHourRate" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="tblProjectMaster" Relationship="PMSModel.FK_tblProjectAllotted_tblProjectMaster" FromRole="tblProjectAllotted" ToRole="tblProjectMaster" />
+  </EntityType>
+  <Association Name="FK_tblProjectAllotted_tblProjectMaster">
+    <End Type="PMSModel.tblProjectMaster" Role="tblProjectMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PMSModel.tblProjectAllotted" Role="tblProjectAllotted" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblProjectMaster">
+        <PropertyRef Name="ProjectId" />
+      </Principal>
+      <Dependent Role="tblProjectAllotted">
+        <PropertyRef Name="refProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblTimeSheetManager">
+    <Key>
+      <PropertyRef Name="TimeId" />
+    </Key>
+    <Property Name="TimeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TimeDate" Type="DateTime" Precision="0" />
+    <Property Name="TimeHours" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="0" />
+    <Property Name="refTimeEmpId" Type="Int32" />
+    <Property Name="refTimeProjectId" Type="Int32" />
+    <NavigationProperty Name="tblUserMaster" Relationship="PMSModel.FK_tblTimeSheetManager_tblUserMaster" FromRole="tblTimeSheetManager" ToRole="tblUserMaster" />
+  </EntityType>
+  <Association Name="FK_tblTimeSheetManager_tblUserMaster">
+    <End Type="PMSModel.tblUserMaster" Role="tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PMSModel.tblTimeSheetManager" Role="tblTimeSheetManager" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblTimeSheetManager">
+        <PropertyRef Name="refTimeEmpId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblPolicyMaster">
+    <Key>
+      <PropertyRef Name="PolicyId" />
+    </Key>
+    <Property Name="PolicyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PolicyText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LastModified" Type="DateTime" Precision="0" />
+    <Property Name="ModifiedBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblCommonContact">
+    <Key>
+      <PropertyRef Name="ContactId" />
+    </Key>
+    <Property Name="ContactId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ContactText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LastUpdated" Type="DateTime" Precision="0" />
+    <Property Name="UpdatedBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblSupportTickedMaster">
+    <Key>
+      <PropertyRef Name="Tid" />
+    </Key>
+    <Property Name="Tid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TSubject" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="TDeptid" Type="Int32" />
+    <Property Name="TStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="UserInvolved" Type="Int32" />
+    <NavigationProperty Name="tblUserMaster" Relationship="PMSModel.FK_tblSupportTickedMaster_tblUserMaster" FromRole="tblSupportTickedMaster" ToRole="tblUserMaster" />
+    <NavigationProperty Name="tblTicketRefs" Relationship="PMSModel.FK_tblTicketRef_tblSupportTickedMaster" FromRole="tblSupportTickedMaster" ToRole="tblTicketRef" />
+  </EntityType>
+  <EntityType Name="tblTicketRef">
+    <Key>
+      <PropertyRef Name="STId" />
+    </Key>
+    <Property Name="STId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="refTId" Type="Int32" />
+    <Property Name="TText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="TFile" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="TDate" Type="DateTime" Precision="0" />
+    <Property Name="UserInvolved" Type="Int32" />
+    <Property Name="CreatedBy" Type="Int32" />
+    <Property Name="AdminRead" Type="Boolean" />
+    <Property Name="UserRead" Type="Boolean" />
+    <NavigationProperty Name="tblSupportTickedMaster" Relationship="PMSModel.FK_tblTicketRef_tblSupportTickedMaster" FromRole="tblTicketRef" ToRole="tblSupportTickedMaster" />
+  </EntityType>
+  <Association Name="FK_tblSupportTickedMaster_tblUserMaster">
+    <End Type="PMSModel.tblUserMaster" Role="tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PMSModel.tblSupportTickedMaster" Role="tblSupportTickedMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblSupportTickedMaster">
+        <PropertyRef Name="UserInvolved" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblTicketRef_tblSupportTickedMaster">
+    <End Type="PMSModel.tblSupportTickedMaster" Role="tblSupportTickedMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PMSModel.tblTicketRef" Role="tblTicketRef" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblSupportTickedMaster">
+        <PropertyRef Name="Tid" />
+      </Principal>
+      <Dependent Role="tblTicketRef">
+        <PropertyRef Name="refTId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblSupportAdminManager">
+    <Key>
+      <PropertyRef Name="SMId" />
+    </Key>
+    <Property Name="SMId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="refDepartmentId" Type="Int32" />
+    <Property Name="refEmployeeId" Type="Int32" />
+    <NavigationProperty Name="tblUserMaster" Relationship="PMSModel.FK_tblSupportAdminManager_tblUserMaster" FromRole="tblSupportAdminManager" ToRole="tblUserMaster" />
+  </EntityType>
+  <Association Name="FK_tblSupportAdminManager_tblUserMaster">
+    <End Type="PMSModel.tblUserMaster" Role="tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PMSModel.tblSupportAdminManager" Role="tblSupportAdminManager" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblSupportAdminManager">
+        <PropertyRef Name="refEmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblLeaveMaster">
+    <Key>
+      <PropertyRef Name="LId" />
+    </Key>
+    <Property Name="LId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LeaveName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LeveValue" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblLeaveBalance">
+    <Key>
+      <PropertyRef Name="LBId" />
+    </Key>
+    <Property Name="LBId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="refEmpUid" Type="Int32" />
+    <Property Name="refLeaveID" Type="Int32" />
+    <Property Name="LeaveBalance" Type="Decimal" Precision="18" Scale="1" />
+    <NavigationProperty Name="tblUserMaster" Relationship="PMSModel.FK_tblLeaveBalance_tblUserMaster" FromRole="tblLeaveBalance" ToRole="tblUserMaster" />
+  </EntityType>
+  <Association Name="FK_tblLeaveBalance_tblUserMaster">
+    <End Type="PMSModel.tblUserMaster" Role="tblUserMaster" Multiplicity="0..1" />
+    <End Type="PMSModel.tblLeaveBalance" Role="tblLeaveBalance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblLeaveBalance">
+        <PropertyRef Name="refEmpUid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblAttendanceMaster">
+    <Key>
+      <PropertyRef Name="AId" />
+    </Key>
+    <Property Name="AId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="refEuid" Type="Int32" />
+    <Property Name="AttendanceDate" Type="DateTime" Precision="0" />
+    <Property Name="ClockIn" Type="Time" Precision="3" />
+    <Property Name="ClockOut" Type="Time" Precision="3" />
+    <Property Name="AttandanceCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tblUserMaster" Relationship="PMSModel.FK_tblAttendanceMaster_tblUserMaster" FromRole="tblAttendanceMaster" ToRole="tblUserMaster" />
+  </EntityType>
+  <Association Name="FK_tblAttendanceMaster_tblUserMaster">
+    <End Type="PMSModel.tblUserMaster" Role="tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PMSModel.tblAttendanceMaster" Role="tblAttendanceMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblAttendanceMaster">
+        <PropertyRef Name="refEuid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblLeaveApplicationTrack">
+    <Key>
+      <PropertyRef Name="BLId" />
+    </Key>
+    <Property Name="BLId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="refEuid" Type="Int32" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="NoOfDays" Type="Decimal" Precision="18" Scale="1" />
+    <Property Name="ApplicantNotes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="ApprovedNotes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="ApproveStatus" Type="Boolean" />
+    <NavigationProperty Name="tblUserMaster" Relationship="PMSModel.FK_tblLeaveApplicationTrack_tblUserMaster" FromRole="tblLeaveApplicationTrack" ToRole="tblUserMaster" />
+  </EntityType>
+  <Association Name="FK_tblLeaveApplicationTrack_tblUserMaster">
+    <End Type="PMSModel.tblUserMaster" Role="tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PMSModel.tblLeaveApplicationTrack" Role="tblLeaveApplicationTrack" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblLeaveApplicationTrack">
+        <PropertyRef Name="refEuid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblSalaryMaster">
+    <Key>
+      <PropertyRef Name="SId" />
+    </Key>
+    <Property Name="SId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="refEID" Type="Int32" />
+    <Property Name="BasicSalary" Type="Int32" />
+    <Property Name="HRA" Type="Int32" />
+    <Property Name="SpecialAllowance" Type="Int32" />
+    <Property Name="ConveyanceAllowance" Type="Int32" />
+    <Property Name="MealAllowance" Type="Int32" />
+    <Property Name="TelephoneAllowance" Type="Int32" />
+    <Property Name="OtherAllowance" Type="Int32" />
+    <Property Name="OtherAllowanceNotes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="PF" Type="Int32" />
+    <Property Name="IncomeTax" Type="Int32" />
+    <Property Name="OtherDeduction" Type="Int32" />
+    <Property Name="OtherDeductionNotes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblUserMaster" Relationship="PMSModel.FK_tblSalaryMaster_tblUserMaster" FromRole="tblSalaryMaster" ToRole="tblUserMaster" />
+  </EntityType>
+  <Association Name="FK_tblSalaryMaster_tblUserMaster">
+    <End Type="PMSModel.tblUserMaster" Role="tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PMSModel.tblSalaryMaster" Role="tblSalaryMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblSalaryMaster">
+        <PropertyRef Name="refEID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblMonthySal">
+    <Key>
+      <PropertyRef Name="MSId" />
+    </Key>
+    <Property Name="MSId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="refEid" Type="Int32" />
+    <Property Name="NetSalAmt" Type="Int32" />
+    <Property Name="WorkingDays" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="DaysWorked" Type="Decimal" Precision="18" Scale="1" />
+    <Property Name="NetPaySalAmt" Type="Int32" />
+    <Property Name="MoreDeduction" Type="Int32" />
+    <Property Name="MoreDeductionNotes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="MoreAddition" Type="Int32" />
+    <Property Name="MoreAdditionNotes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="FinalSalAmt" Type="Int32" />
+    <Property Name="ForMonth" Type="Int32" />
+    <Property Name="ForYear" Type="Int32" />
+    <Property Name="CreadtedOn" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="Int32" />
+    <Property Name="BasicSal" Type="Int32" />
+    <Property Name="HRA" Type="Int32" />
+    <Property Name="SpecialAllowance" Type="Int32" />
+    <Property Name="ConveyanceAllowance" Type="Int32" />
+    <Property Name="MealAllowance" Type="Int32" />
+    <Property Name="TelephoneAllowance" Type="Int32" />
+    <Property Name="OtherAllowance" Type="Int32" />
+    <Property Name="OtherAllowanceNotes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="PF" Type="Int32" />
+    <Property Name="IncomeTax" Type="Int32" />
+    <Property Name="OtherDeduction" Type="Int32" />
+    <Property Name="OtherDeductionNotes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblUserMaster" Relationship="PMSModel.FK_tblMonthySal_tblUserMaster" FromRole="tblMonthySal" ToRole="tblUserMaster" />
+  </EntityType>
+  <Association Name="FK_tblMonthySal_tblUserMaster">
+    <End Type="PMSModel.tblUserMaster" Role="tblUserMaster" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PMSModel.tblMonthySal" Role="tblMonthySal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserMaster">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblMonthySal">
+        <PropertyRef Name="refEid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

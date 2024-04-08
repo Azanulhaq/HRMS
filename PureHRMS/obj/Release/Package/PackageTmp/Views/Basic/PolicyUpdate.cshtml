@@ -1,0 +1,33 @@
+﻿@model PureHRMS.tblPolicyMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Policy Management";
+}
+
+
+<div class="col-md-12">
+    <span class="text-danger">Update company policies by adding them below.</span>
+    <hr />
+    @using (Html.BeginForm("PolicyUpdate", "Basic", FormMethod.Post))
+    {@Html.AntiForgeryToken()
+        <h5>  <span class="error-class">@ViewBag.FoundError</span></h5>
+        <label>Update Company Policies </label>
+        @Html.TextAreaFor(Model  => Model.PolicyText, new { @class = "form-control textEditorCustom" })
+        <br />
+        <input type="submit" value="Update Policies" class="btn btn-info" />
+    }
+  
+</div>
+
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+

@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Manage Permissions";
+}
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger">
+                -Below are the registered users. You can allow permissions to users by clicking on MANAGE PERMISSIONS.
+                <br />
+                -Please note that you can't edit any permission for WEBMASTER ACCOUNT ( it's neccessary for accessing this application ). 
+            </span>
+            <hr />
+            <div class="table-responsive">
+
+
+                @{
+                    if (ViewBag.Userlist == null || Enumerable.Count(ViewBag.Userlist) == 0)
+                    {
+                        <div class="alert alert-danger">No Records Found</div>
+                    }
+                    else
+                    {
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>UserId</th>
+                                    <th>Full Name </th>
+                                    <th>Email ID</th>
+                                    <th>Manage Permissions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.Userlist)
+                                {
+                                <tr>
+                                    <td>@item.UserId</td>
+                                    <td>@item.FullName</td>
+                                    <td>@item.EmailId</td>
+                                    <td>
+                                        <a href="/Basic/PermissionsView/?userid=@item.UserId" class="btn btn-info btn-xs">Manage Permissions</a>
+                                    </td>
+                                </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    }
+
+
+
+                   
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section MainSidebar {
+  
+        @Html.Partial("_MenuPartial");
+
+  
+}
+
+

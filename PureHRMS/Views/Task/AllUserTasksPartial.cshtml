@@ -1,0 +1,95 @@
+﻿@model IEnumerable<PureHRMS.tblTaskMaster>
+
+
+
+<div class="table-responsive">
+
+
+    @{
+        using (HRMSConn dc = new HRMSConn())
+        {
+
+            var grid = new WebGrid(Model, canPage: true, rowsPerPage: 30);
+            if (grid.Rows.Count > 0)
+            {
+            @grid.GetHtml(
+         htmlAttributes: new { @class = "table table-bordered" },
+         columns: (
+         grid.Columns(
+         grid.Column("TaskId", "ID"),
+
+         grid.Column("Est. Start", format:@<text> 
+    @item.StartDate.ToShortDateString()
+    </text>),
+               grid.Column("Est. End", format:@<text>
+                        @item.EndDate.ToShortDateString()
+                    </text>),
+             grid.Column("Task Detail", format:@<text>
+    
+    <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target="#@item.TaskId">Task Details</a>
+
+    <div class="modal fade" id="@item.TaskId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+               
+                <div class="modal-body">
+                    @Html.Raw(item.Details)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    </text>
+
+),
+grid.Column("Assigned By", format:@<text>
+   
+
+    @{ 
+
+        int aby = Convert.ToInt32(item.AssignBy);
+
+        var getdetails = dc.tblUserMasters.Where(y => y.UserId == aby).SingleOrDefault();
+
+        @getdetails.FullName 
+
+        <text>, </text>
+
+        @getdetails.EmpId
+    }
+
+       
+   
+    </text>
+),
+grid.Column("FinishNotes", "Assigned On"),
+grid.Column("#Action", format:@<text>
+   
+   <form method="post" action="/Task/DeleteTask/@item.TaskId" >
+       @Html.AntiForgeryToken()
+       <input type="submit" value="Delete" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure you want to delete this ?');" />
+    </form>
+    </text>
+  )
+)
+)
+);
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i>No Tasks Assigned</i>
+            </div>
+            }
+        }
+    }
+
+
+
+</div>

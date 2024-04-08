@@ -1,0 +1,156 @@
+﻿@model PureHRMS.tblLeaveApplicationTrack
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Apply Leave";
+}
+
+<div class="col-md-12">
+    <div class="row">
+      
+       <div class="col-md-4">
+           <span class="text-danger">
+               Default status of leave is REJECTED for New Apply leaves.
+               When your leave is APPROVED by higher authorities it will show APPROVED status.
+           </span>
+           <hr />
+              <h4> <strong>   Apply New Leave </strong></h4>
+         
+
+           @using (Html.BeginForm("ApplyLeave", "Leave", FormMethod.Post))
+           {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "error-class" })
+            <span class="error-class">@ViewBag.FoundError</span>
+            <hr />
+            <label>Start Date</label>
+            @Html.TextBoxFor(m => m.StartDate, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker", @placeholder = "MM/DD/YYYY", @readonly = "readonly" })
+            <label>No. Of Days</label>
+            @Html.TextBoxFor(m => m.NoOfDays, new { @class = "form-control", @placeholder = "Ex: 5" })
+            <label>Description</label>
+            @Html.TextAreaFor(m => m.ApplicantNotes, new { @class = "form-control", @rows = "5" })
+            <br />
+            <input type="submit" value="Apply Leave" class="btn btn-info" />
+            <br />
+           }
+
+        
+       </div>
+        <div class="col-md-8">
+           
+                <h4>   <strong>Your Leave Balance </strong></h4>
+            <hr />
+            <div class="table-responsive">
+
+
+
+
+
+                @{
+                    if (ViewBag.LeaveBal == null || Enumerable.Count(ViewBag.LeaveBal) == 0)
+                    {
+                        <div class="alert alert-danger">No Leaves Found</div>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-info btn-lg">Total Balance - @ViewBag.TotalLeaveBal</a>
+                        <br /><br />
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Leave Name </th>
+                                    <th>Day </th>
+                                    <th>Leave Count </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.LeaveBal)
+                                {
+                                    <tr>
+                                        <td>@item.LeaveName</td>
+                                        <td>@item.LeaveType</td>
+                                        <td>@item.LeaveBalance</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr />
+            <h4> <strong> Your Applied Leaves </strong> </h4>
+            <hr />
+
+            @{
+                if (ViewBag.LeaveHistory == null || Enumerable.Count(ViewBag.LeaveHistory) == 0)
+                {
+                    <div class="alert alert-danger">No Leave  Applied</div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Start Date </th>
+                                    <th>For Days </th>
+                                    <th>Description </th>
+                                    <th>Status </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.LeaveHistory)
+                                {
+                                <tr>
+                                    <td>
+                                        @item.StartDate.ToShortDateString()
+                                    </td>
+                                    <td>@item.NoOfDays</td>
+                                    <td>@item.ApplicantNotes</td>
+                                    <td>
+                                        @if (@item.ApproveStatus == true)
+                                          {
+                                            <text><a href="#" class="btn btn-success btn-xs ">APPROVED</a></text>
+                                          }
+                                          else
+                                          {
+                                            <text><a href="#" class="btn btn-danger btn-xs">Rejected</a></text>
+
+                                          }
+
+                                    </td>
+                                </tr>
+
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+    }
+
+}
+        </div>
+    </div>
+</div>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}
+
+
+
+
+
+

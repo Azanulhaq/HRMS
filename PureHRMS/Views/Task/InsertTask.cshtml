@@ -1,0 +1,91 @@
+﻿@model PureHRMS.tblTaskMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Assign Task";
+}
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <a href="/Employee/EmployeeTeamView/" class="btn btn-sm btn-danger">Go Back</a>
+            <hr />
+            <span class="text-danger">Assign task to the employee mentioned below.</span>
+            <hr />
+            @using (Html.BeginForm("InsertTask", "Task", FormMethod.Post))
+            {
+
+                <div class="row">
+                    <div class="col-md-12">
+                      
+                        <h4>   Employee Identifier: <strong>@ViewBag.Identifier</strong>  </h4>
+                        <h4>   Employee ID: <strong>@ViewBag.EmployeeID</strong>  </h4>
+                        <h4>   Employee Name: <strong>@ViewBag.EmployeeName</strong>  </h4>
+                        <hr />
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "error-class" })
+                        <span class="error-class">@ViewBag.FoundError</span>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Choose Start Date</label>
+                        @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control datepicker", @readonly = "readonly" , @placeholder="MM/DD/YYYY"})
+                    </div>
+                    <div class="col-md-6">
+                        <label>Choose End Date</label>
+                        @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control datepicker", @readonly = "readonly", @placeholder = "MM/DD/YYYY" })
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Enter Details</label>                      
+                        @Html.TextAreaFor(m => m.Details, new { @class = "form-control textEditorCustom" })
+                        <i class="text-danger">YOU CAN'T EDIT THESE TASKS. Please write  with care.</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <input type="submit" value="Assign Task" class="btn btn-success" />
+                        <br />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr />
+            <h3>Task History</h3>
+            <hr />
+            @{
+
+                using (HRMSConn dc = new HRMSConn())
+                {
+                    int ato = Convert.ToInt32(ViewBag.Identifier);
+
+                    var datanew = dc.tblTaskMasters.Where(x => x.AssignTo == ato).OrderByDescending(x=>x.TaskId).ToList();
+
+                @Html.Partial("AllUserTasksPartial", datanew)
+                    }
+
+                }
+            <br />
+        </div>
+    </div>
+</div>
+
+
+    
+
+    @section MainSidebar {
+
+        @Html.Partial("_MenuPartial");
+
+
+    }

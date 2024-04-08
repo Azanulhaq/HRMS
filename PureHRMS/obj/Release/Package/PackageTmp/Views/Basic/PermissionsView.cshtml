@@ -1,0 +1,148 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Manage Permission";
+}
+
+<div class="col-md-12">
+   
+        <a href="/Basic/ViewUsersForPermissions/" class="btn btn-sm btn-danger">Go Back</a> 
+        <hr />
+    <span class="text-danger">
+        
+        -Please note that you can't edit any permission for WEBMASTER ACCOUNT ( it's neccessary for accessing this application ). 
+        <br />
+        -Although you can change / edit permissions for all other user accounts.
+        <br />
+        -Manage Permission for the employee mentioned below.
+    </span>
+    <hr />
+    <h5>   Employee ID: <strong>@ViewBag.EmpId</strong>  </h5>     
+    <h5>   Employee Identifier: <strong>@ViewBag.UserIdentifier</strong>  </h5>
+    <h5> Employee Name: <strong>@ViewBag.UserName</strong>  </h5>
+    <hr />
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Menu Name</th>
+                    <th>Access Status </th>
+                    <th>#Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+
+                @{
+                    using (HRMSConn dc = new HRMSConn())
+                    {
+                        int useridmain = Convert.ToInt32(ViewBag.UserIdentifier);
+
+                        var usedPermissions = dc.tblPermissionMasters.Where(e => e.refUserId == useridmain && e.Allowed == true).ToList();
+
+                        var data = dc.tblMenuMasters.Where(x => x.ParentId == 0).ToList();
+                        if (data.Count > 0)
+                        {
+                            for (int i = 0; i < data.Count; i++)
+                            {
+                                using (Html.BeginForm("PermissionsViewPost", "Basic", new { Id = data[i].MenuId, userid = useridmain }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    bool foundpermission = false;
+                                    for (int s = 0; s < usedPermissions.Count; s++)
+                                    {
+                                        if (data[i].MenuId == usedPermissions[s].refMenuId)
+                                        {
+                                            foundpermission = true;
+                                            break;
+                                        }
+                                    }
+                                    if (foundpermission)
+                                    {
+                                        <tr>
+                                            <td><strong> <i class="fa fa-dot-circle-o"></i>   @data[i].MenuName </strong> </td>
+                                            <td><a class="btn btn-success btn-xs">Allowed</a></td>
+                                            <td><input type="submit" class="btn btn-info btn-sm" value="Change" /></td>
+                                        </tr>
+
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td><strong> <i class="fa fa-dot-circle-o"></i>   @data[i].MenuName </strong> </td>
+                                            <td><a class="btn btn-danger btn-xs">Not Allowed</a></td>
+                                            <td><input type="submit" class="btn btn-info btn-sm" value="Change" /></td>
+                                        </tr>
+                                    }
+
+                                }
+                                int menuid = Convert.ToInt32(data[i].MenuId);
+
+                                var dataWithChilds = dc.tblMenuMasters.Where(x => x.ParentId == menuid).ToList();
+
+                                if (dataWithChilds.Count > 0)
+                                {
+
+                                    for (int j = 0; j < dataWithChilds.Count; j++)
+                                    {
+                                        using (Html.BeginForm("PermissionsViewPost", "Basic", new { Id = dataWithChilds[j].MenuId, userid = useridmain }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            bool foundpermissionwithchilds = false;
+                                            for (int s = 0; s < usedPermissions.Count; s++)
+                                            {
+                                                if (dataWithChilds[j].MenuId == usedPermissions[s].refMenuId)
+                                                {
+                                                    foundpermissionwithchilds = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (foundpermissionwithchilds)
+                                            {
+                                                <tr>
+                                                    <td> --- @dataWithChilds[j].MenuName</td>
+                                                    <td><a class="btn btn-success btn-xs">Allowed</a></td>
+                                                    <td><input type="submit" class="btn btn-info btn-sm" value="Change" /></td>
+                                                </tr>
+
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td> --- @dataWithChilds[j].MenuName</td>
+                                                    <td><a class="btn btn-danger btn-xs">Not Allowed</a></td>
+                                                    <td><input type="submit" class="btn btn-info btn-sm" value="Change" /></td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+
+            </tbody>
+        </table>
+</div>
+
+    </div>
+
+
+
+@section MainSidebar {
+  
+        @Html.Partial("_MenuPartial");
+
+  
+}
+
+
+
+

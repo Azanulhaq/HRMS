@@ -1,0 +1,101 @@
+﻿@model IEnumerable<PureHRMS.tblUserMaster>
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Update Employee";
+}
+
+
+
+<div class="col-md-12">
+    <span class="text-danger">
+     -  Please Note that you can't delete or  disable employee if he/she owns any team.
+       Means you need to assign his/her team to some other employee if you want to delete or disable employee.
+        <br />
+       - Please note if you delete any employee all its associated data will be deleted from the application and you will not be able to recover that ever. 
+        So be careful while deleting an employee.
+    </span>
+    <hr />
+@{
+    var grid = new WebGrid(Model, canPage: true, rowsPerPage:50);
+}
+    @if (grid.Rows.Count > 0)
+    {
+        <div class="table-responsive">
+            @grid.GetHtml(
+ htmlAttributes: new { @class = "table table-bordered" },
+ columns:
+  grid.Columns(
+ grid.Column("UserId", "User ID"),
+  grid.Column("Name / Email", format:@<text>
+            <strong> @item.FullName </strong><br/>
+@item.EmailId
+</text>),
+ grid.Column("UserPassword", "Password"),
+ grid.Column("Active", "Active"),
+ grid.Column("EmpId", "Emp. ID"),
+  grid.Column("Payroll", format:@<text>
+    <a href="/Payroll/ManagePayrollBasic/@item.UserId" class="btn btn-xs btn-warning">Manage</a>
+</text>),
+      grid.Column("Print", format:@<text>
+        <a href="/Employee/EmployeePrintView/@item.UserId" class="btn btn-xs btn-default">Print</a>
+    </text>),
+        grid.Column("Print", format:@<text>
+        <a href="/Payroll/SalSlips/@item.UserId" class="btn btn-xs btn-danger">Salary Slips</a>
+        </text>),
+ grid.Column("Leaves", format:@<text>
+            <a href="/Employee/ManageLeaves/@item.UserId" class="btn btn-xs btn-success">Manage</a>
+            </text>),
+ 
+ grid.Column("Edit", format:@<text>
+    @{
+        <a href="/Employee/EditEmployee/@item.UserId" class="btn btn-xs btn-info">Edit</a>
+    }
+</text>),
+       grid.Column("Disable", format:@<text>
+            <form method="post" action="/Employee/DisableEmployee/@item.UserId">
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Disable" onclick="return confirm('Are you sure you want to disable - @item.FullName');" class="btn btn-xs btn-warning" />
+            </form>
+
+
+    </text>),
+          grid.Column("Enable", format:@<text>
+            <form method="post" action="/Employee/EnableEmployee/@item.UserId">
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Enable" onclick="return confirm('Are you sure you want to enable - @item.FullName');" class="btn btn-xs btn-success" />
+            </form>
+
+
+        </text>),
+        grid.Column("Delete", format:@<text>
+            <form method="post" action="/Employee/DeleteEmployee/@item.UserId">
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete - @item.FullName');" class="btn btn-xs btn-danger" />
+            </form>
+
+
+        </text>)
+    )
+    )
+
+        </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i>No Employees Found</i>
+            </div>
+        }
+
+
+
+
+</div>
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}

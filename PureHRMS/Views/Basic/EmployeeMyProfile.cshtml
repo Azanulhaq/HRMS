@@ -1,0 +1,91 @@
+﻿@model PureHRMS.tblUserMaster
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "My Profile ";
+}
+
+<div class="col-md-12">
+  
+    <div class="PrintWrapper">
+      
+        <div class="row">
+            <div class="col-md-6">
+                Employee ID :
+                @Model.EmpId
+            </div>
+            <div class="col-md-6">
+                Email ID :
+                @Model.EmailId
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong>     Name: <br /> </strong>
+                        @Model.FullName
+                    </div>
+                    <div class="col-md-12">
+                        <strong>
+                            Designation: <br />
+                        </strong>
+                        @ViewBag.Desig
+                    </div>
+                    <div class="col-md-12">
+                        <strong>
+                            Department: <br />
+                        </strong>
+                        @ViewBag.Dept
+                    </div>
+                    <div class="col-md-12">
+                        @{
+                            string dt = Convert.ToDateTime(Model.Dob).ToShortDateString();
+                            <text> <strong>
+                                    DOB <small>(mm/dd/yyyy)</small> : <br />
+                                </strong>  @dt  </text>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                @if (Model.ImagePath == null || Model.ImagePath.ToString() == "")
+                {
+                    <img src="@Url.Content("~/UploadedData/EmployeeImages/user.jpg")" class="img-thumbnail edit-employee-image" />
+                }
+                else
+                {
+                    <img src="@Url.Content("~/UploadedData/EmployeeImages/"+Model.ImagePath.ToString())" class="img-thumbnail edit-employee-image" />
+
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <strong>     Qualifications: <br /> </strong>
+                @Model.HighestQualification , @Model.SecondHighestQualification
+            </div>
+
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                More Details :
+                <hr />
+                @Html.Raw(Model.OtherDetails)
+            </div>
+
+        </div>
+    </div>
+    
+</div>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}

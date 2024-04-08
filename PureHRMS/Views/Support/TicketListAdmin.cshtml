@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Employee Tickets";
+}
+
+<div class="col-md-12">
+    
+    <div class="row">
+        <div class="col-md-12">
+
+            <span class="text-danger">
+                - Clcik on VIEW button to reply or view the whole communication.
+            </span>
+
+
+            <hr />
+            @{
+                var grid = new WebGrid(Model, canPage: true, rowsPerPage: 50);
+            }
+            @if (grid.Rows.Count > 0)
+            {
+                <div class="table-responsive">
+                    @grid.GetHtml(
+ htmlAttributes: new { @class = "table table-bordered" },
+ columns:
+  grid.Columns(
+ grid.Column("#", format:@<text>
+        @{
+            if (item.Read == false)
+            {
+                <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-folder-o"></i></a>
+            }
+            else
+            {
+                <a href="#" class="btn btn-success btn-xs"><i class="fa fa-folder-open-o"></i></a>
+            }
+        }
+</text>),
+ grid.Column("ID", "Ticket ID"),
+ grid.Column("Subject", "Subject"),
+ grid.Column("Department", "Department"),
+ grid.Column("View / Reply", format:@<text>
+
+    <a href="/Support/ReplyOnTicketAdmin/@item.ID" class="btn btn-warning btn-xs"><i class="fa fa-comments-o"></i> View</a>
+</text>)
+    )
+    )
+
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <i>No Tickets Found</i>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+}
+

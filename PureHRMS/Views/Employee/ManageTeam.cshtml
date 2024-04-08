@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "MANAGE TEAM";
+}
+
+<div class="col-md-6">
+    
+    <span class="text-danger">Please update team members by selecting Upper Memember & Team Member</span>
+    <hr />
+    @using (Html.BeginForm("ManageTeam", "Employee", FormMethod.Post))
+    { @Html.AntiForgeryToken()
+        <h5> <span class="error-class">@ViewBag.FoundError</span></h5>
+    <label>Select Parent ( Upper Member )</label>
+    @Html.DropDownList("ParentDDL", new SelectList(ViewBag.AllUsersParents, "UserIdentifier", "UserDisplay"),  new { @class = "form-control" })
+    <label>Select Child ( Team Member ) </label>
+     @Html.DropDownList("ChildtDDL", new SelectList(ViewBag.AllUsersChilds, "UserIdentifier", "UserDisplay"), new { @class = "form-control" })
+    <br />
+    <input type="submit" value="Save Data" class="btn btn-info" />
+    <hr />
+    <span class="text-danger">
+        EXAMPLE: <br />
+        Suppose you want to add employee B in team of employee A . Then you should select employee A as UPPER MEMBER & employee B as TEAM MEMBER.
+    </span> 
+    }
+</div>
+<div class="col-md-4 col-md-offset-1">
+    <h4>Click below to see all employees tree in the organisation</h4>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+        See All Users
+    </button>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               
+                    @Html.Partial("_FullTree")
+               
+                <div class="modal-footer">
+                   
+                    <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+    @section MainSidebar {
+
+        @Html.Partial("_MenuPartial");
+
+    }

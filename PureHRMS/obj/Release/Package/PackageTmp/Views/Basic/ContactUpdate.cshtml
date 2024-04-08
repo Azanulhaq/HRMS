@@ -1,0 +1,32 @@
+﻿@model PureHRMS.tblCommonContact
+
+@{
+    ViewBag.Title = "Human Resource Management System";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageHead = "Contacts Management";
+}
+
+<div class="col-md-12">
+    <span class="text-danger">Update Common Contacts Below.</span>
+    <hr />
+    @using (Html.BeginForm("ContactUpdate", "Basic", FormMethod.Post))
+    {@Html.AntiForgeryToken()
+        <h5>  <span class="error-class">@ViewBag.FoundError</span></h5>
+        <label>Update Common Contacts </label>
+        @Html.TextAreaFor(Model => Model.ContactText, new { @class = "form-control textEditorCustom" })
+        <br />
+        <input type="submit" value="Update Contacts" class="btn btn-info" />
+    }
+
+</div>
+
+
+
+@section MainSidebar {
+
+    @Html.Partial("_MenuPartial");
+
+
+}
+
+
